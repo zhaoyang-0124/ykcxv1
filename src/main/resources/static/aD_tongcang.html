@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皮带机及筒仓工艺流程与作业经验手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px; /* 移动端更小的边距 */
+            /* 防止页面滚动时背景渐变抖动 */
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px; /* 移动端更圆润 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem; /* 使用rem单位自适应 */
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .nav-section {
+            padding: 15px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            text-align: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 12px 20px; /* 移动端按钮更紧凑但易于点击 */
+            border: none;
+            border-radius: 20px; /* 移动端更圆润 */
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+            /* 确保按钮在触摸设备上易于点击 */
+            min-height: 44px; /* iOS推荐的最小触摸目标 */
+            min-width: 44px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            gap: 20px; /* 移动端间距更小 */
+        }
+
+        .section {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 12px; /* 移动端更圆润 */
+            padding: 20px 15px; /* 移动端更紧凑 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-3px); /* 移动端悬停效果减弱 */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px; /* 移动端标题间距更小 */
+            font-size: 1.5rem; /* 移动端标题更小 */
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: initial;
+        }
+
+        .image-container {
+            text-align: center;
+            padding: 15px 10px; /* 移动端更紧凑 */
+        }
+
+        .process-image {
+            max-width: 100%;
+            max-height: 300px; /* 移动端图片高度更小 */
+            height: auto;
+            border-radius: 8px; /* 移动端更圆润 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .manual-content {
+            background: white;
+            padding: 15px; /* 移动端更紧凑 */
+            border-radius: 8px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-height: 400px; /* 移动端内容区域高度更小 */
+            overflow-y: auto; /* 添加滚动条 */
+            line-height: 1.4; /* 移动端行高更紧凑 */
+            font-size: 0.9rem; /* 移动端字体稍小 */
+            color: #333;
+        }
+
+        /* 为手册内容定制的样式 */
+        .manual-content h3 {
+            font-size: 1.2em;
+            margin: 1em 0 0.5em 0;
+            color: #4a5568;
+        }
+
+        .manual-content h4 {
+            font-size: 1.1em;
+            margin: 0.8em 0 0.4em 0;
+            color: #4a5568;
+        }
+
+        .manual-content p {
+            margin: 0.5em 0;
+        }
+
+        .manual-content ol, .manual-content ul {
+            padding-left: 1.2em;
+            margin: 0.5em 0;
+        }
+
+        .manual-content li {
+            margin: 0.3em 0;
+        }
+
+        .no-content {
+            text-align: center;
+            padding: 30px 15px; /* 移动端更紧凑 */
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* 桌面端优化 */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .back-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+                border-radius: 25px;
+            }
+
+            .content-section {
+                padding: 30px;
+                gap: 30px;
+            }
+
+            .section {
+                border-radius: 15px;
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .image-container {
+                padding: 20px;
+            }
+
+            .process-image {
+                max-height: 600px; /* 桌面端图片恢复高度 */
+                border-radius: 10px;
+            }
+
+            .manual-content {
+                padding: 20px;
+                max-height: 600px; /* 桌面端内容区域恢复高度 */
+                line-height: 1.6; /* 桌面端行高更舒适 */
+                font-size: 1rem; /* 桌面端字体恢复 */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🚢 皮带机及筒仓工艺流程与作业经验手册</h1>
+        <p>安全、高效、规范操作指南</p>
+    </div>
+
+    <div class="nav-section">
+        <!-- 请在此处替换为您自己的返回路径 -->
+        <a href="artDrawing.html" class="back-btn">⬅️ 返回上一级</a>
+        <!-- 或者设置一个具体的URL，例如: -->
+        <!-- <a href="/path/to/previous/page" class="back-btn">⬅️ 返回上一级</a> -->
+    </div>
+
+    <div class="content-section">
+        <div class="section">
+            <h2>📊 工艺流程图</h2>
+            <div class="image-container">
+                <!-- 图片将通过JavaScript动态加载 -->
+                <img id="processImage" alt="装船机工艺流程图" class="process-image">
+                <div id="imageLoader" style="display: block;">加载中...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📖 皮带机及筒仓作业经验手册</h2>
+            <div class="manual-content">
+                <h3>皮带机及筒仓作业经验手册</h3>
+
+                <h4>一、皮带机常见故障处理经验</h4>
+                <h4>1.T3塔和T8塔电动翻板不到位</h4>
+                <ol type="a">
+                    <li>中控操作员手动调整T3塔和T8塔电动翻板使其到达相对应位置。</li>
+                    <li>通知T3塔巡视和T8塔巡视检查翻板处是否有积煤。有积煤联系检修人员处理。</li>
+                    <li>电动翻板无积煤，无异常。中控操作员可以通知T3塔巡视和T8塔巡视就地手动调整翻板到达相对应位置。</li>
+                    <li>如报警里无相关信息或报警信息消除后就地调整仍不到位，中控操作员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>2.T1塔、T9塔、T10塔伸缩头不到位</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员手动调整T1塔、T9塔、T10塔伸缩头使其到达相对应位置。</li>
+                    <li>通知T1塔、T9塔、T10塔巡视检查翻板处是否有积煤。有积煤联系清扫人员处理。</li>
+                    <li>伸缩头无积煤，无异常。中控操作员可以通知T1塔、T9塔、T10塔巡视就地手动调整伸缩头到达相对应位置。</li>
+                    <li>如报警里无相关信息或报警信息消除后就地调整仍不到位，中控操作员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>3.皮带机运行轻跑偏</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员观察流程发现皮带跑偏及时联系皮带机巡视检查跑偏情况。</li>
+                    <li>如缓冲叉、滚筒、托辊粘煤应及时停机联系清扫人员清理。</li>
+                    <li>如流量忽大忽小，应及时调整流量。</li>
+                    <li>如落料点不正、张紧不足应及时联系值班工长，联系检修人员处理。</li>
+                </ol>
+
+                <h4>4.皮带机沿线开关故障</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员发现故障报警，一般出现拉绳、撕裂、跑偏、制动器等故障后，通知巡视及时检查复位。重新启动流程。</li>
+                    <li>特殊情况下，如果某一故障连续出现几次，要通知巡视认真检查，并通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>5.皮带机运行重跑偏</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员发现皮带重跑偏停机及时联系皮带机巡视查看情况。</li>
+                    <li>通知各转接塔巡视查看堵料及撒煤情况</li>
+                    <li>如无堵料和撒料情况，中控手动启动皮带机，等待料流走净，跑偏回复再启动流程恢复给料。如重跑偏无法启动皮带或存在堵料和撒料情况及时上报工长，工长联系检修到场处理。</li>
+                </ol>
+
+                <h4>6.托辊异响或不转</h4>
+                <ol type="a" start="1">
+                    <li>发现托辊异响或不转，巡视立即联系中控。</li>
+                    <li>中控联系值班工长，值班工长联系检修人员现场查看，必要时候停止流程。</li>
+                </ol>
+
+                <h4>7.落煤筒堵煤</h4>
+                <ol type="a" start="1">
+                    <li>报警触发，中控立即联系巡视现场查看</li>
+                    <li>发现湿煤和粘煤立即停机联系清扫人员处理</li>
+                    <li>如果流量过大立即调整给料量</li>
+                    <li>如果误触发立即联系检修人员处理</li>
+                </ol>
+
+                <h4>8.皮带打滑</h4>
+                <ol type="a" start="1">
+                    <li>报警触发立即联系巡视查看情况。</li>
+                    <li>如雨雪天气及时控制流量，及时排出雨雪</li>
+                    <li>如张紧不足，及时联系检修人员处理</li>
+                </ol>
+
+                <h4>9.干雾抑尘故障</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，中控操作员立即联系现场巡视查看。</li>
+                    <li>现场巡视尝试手动启动干雾抑尘。</li>
+                    <li>如仍无法启动通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>10.皮带机启动超时故障、皮带机小车未吸合</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，中控操作员联系66KV变电所人员。</li>
+                    <li>通知66kv变电所人员重新摇超时启动皮带小车。</li>
+                    <li>如果仍未启动通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>11.BM1皮带秤故障</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，中控立即停止给料。</li>
+                    <li>及时记录故障前皮带秤数值。</li>
+                    <li>如无法恢复，待皮带料流走净立即停止流程通知值班工长联系检修人员处理。</li>
+                </ol>
+
+                <h4>12.皮带机系统急停</h4>
+                <ol type="a" start="1">
+                    <li>现故障后，联系巡视查看情况。</li>
+                    <li>现场无异常，手动恢复急停，重新启动流程。</li>
+                    <li>如特殊情况继续出现急停，联系值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>二、筒仓设备故障操作经验</h4>
+                <h4>1.卸料小车启动超时</h4>
+                <ol type="a">
+                    <li>中控操作员发现故障联系筒仓巡视现场查看。</li>
+                    <li>现场无异常，中控操作员进行故障恢复。</li>
+                    <li>如无法恢复，联系值班工长，工长联系检修人员处理。</li>
+                </ol>
+
+                <h4>2.筒仓气体报警</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员发现筒仓气体持续报警。</li>
+                    <li>低报警开启轴流风机，高报警启动充氮气并进行记录。</li>
+                    <li>如一氧化碳浓度高于300ppm或甲烷浓度高于65%LEL立即联系值班主任，值班主任联系生技部进行出仓作业。</li>
+                </ol>
+
+                <h4>3.筒仓温度报警</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员发现筒仓温度持续报警。</li>
+                    <li>低报警开启轴流风机，高报警启动充氮气并进行记录。</li>
+                    <li>如温度高于70℃或有浓烟冒出立即联系值班主任，值班主任联系生技部进行出仓作业。</li>
+                </ol>
+
+                <h4>4.粉尘报警</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员发现粉尘初级报警，立即对讲机通知筒仓巡视戴好口罩，停止清扫，开启轴流风机，打开小门通风抑尘。</li>
+                    <li>中控操作员发现粉尘高级报警，立即对讲机通知筒仓巡视戴好口罩，停止清扫，开启轴流风机，打开小门通风抑尘。人员撤离作业区域。</li>
+                </ol>
+
+                <h4>5.干式除尘故障</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员发现干式除尘故障，立即联系筒仓巡视查看。</li>
+                    <li>故障无法消除，中控立即联系值班工长，值班工长联系检修人员处理。</li>
+                </ol>
+
+                <h4>6.盖带跑偏</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，筒仓巡视联系中控。</li>
+                    <li>中控联系值班工长，值班工长联系检修人员处理。</li>
+                </ol>
+
+                <h4>7.活化给料机常见故障</h4>
+                <h4>a.活化给料机不工作</h4>
+                <p>故障原因及处理办法：可控硅损坏-更换可控硅，电路板损坏-更换电路板，接地故障跳闸，供电线路故障-处理进线接头，重新合闸。</p>
+                <h4>b.活化给料机下料慢</h4>
+                <p>故障原因及处理办法：振动器有一台不工作，熔断器熔断-更换熔断器，检查振动器接线端子是否松动，电路板老化-更换电路板，煤湿有粘煤-找检修清理料斗。</p>
+                <h4>c.活化给料机给料量无法控制</h4>
+                <p>故障原因及处理办法：活化给料机没有压缩空气-检查空压机</p>
+
+                <h4>三、特殊情况皮带机处理经验</h4>
+                <h4>1.高温煤作业经验</h4>
+                <h4>(8)作业前：</h4>
+                <ol type="f">
+                    <li>首先，掌握当班高温垛情况，科学、合理安排卸车和装船作业</li>
+                </ol>
+                <h4>(9)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>筒仓排料高温煤时要和现场巡视、库场员联系沟通，做好现场监护，一旦出现冒烟、起火特殊情况，要立即采取应急措施。</li>
+                </ol>
+                <h4>(10)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>作业完毕后，要配合巡视人员，对设备进行系统检查，并对易积煤死角进行冲洗，并做好交接班，提醒下班人员加强检查。</li>
+                    <li>及时通知库场员做好高温垛的攒垛、清垛。</li>
+                </ol>
+
+                <h4>2.雨天作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>检查设备是否正常。</li>
+                    <li>检查皮带机是否有积水。</li>
+                    <li>检查防汛物资是否完备。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>皮带机作业前先将积水排出。</li>
+                    <li>严格控制流量小雨、阵雨等情况，装船作业控制给料量不超过3000t/h，堆场堆料作业不超2500t/h。</li>
+                    <li>严格控制流量小雨——中雨所有流程控制给料量不超过2200t/h</li>
+                    <li>中雨以上停止作业流程。如遇中雨以上降水量天气，筒仓发热煤急须出仓等必要作业，控制流量不超过1500t/h。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>在检查设备时要抓紧扶牢，确保人身安全。</li>
+                </ol>
+
+                <h4>3.雪天作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>检查设备是否正常。</li>
+                    <li>检查伴热是否投入，液压温度是否正常。</li>
+                    <li>现场作业人员做好防滑。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>一定要严格控制流量，尽量防止出现皮带打滑重载停机。</li>
+                    <li>粘煤、冻煤容易造成溜筒堵料积煤，一旦出现堵料，清理需要较长时间，需要停止作业流程。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>在检查设备时要抓紧扶牢，确保人身安全。</li>
+                    <li>检查车厢有无积煤情况，如有及时联系清扫人员进行清扫。</li>
+                </ol>
+
+                <h4>4.雾天作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>作业前联系巡视人员注意安全，加强沟通联系。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>如遇大雾天气时应增加防雾照明灯</li>
+                    <li>照明不足影响作业时，立即停止作业</li>
+                    <li>一定要严格控制流量，尽量防止出现皮带打滑重载停机。</li>
+                    <li>作业过程中与现场加强联系，确保没有无关人员以及障碍物</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>联系巡视人员确认无任何异常。</li>
+                </ol>
+
+                <h4>5.湿粘煤作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>中控操作员与皮带机巡视联系检查设备设施情况，查看确认滚筒、导料槽、缓冲叉、托辊无粘煤</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>一定要严格控制流量，尽量防止出现皮带打滑重载停机。</li>
+                    <li>要时刻关注滚筒、导料槽积煤情况，防止堵料停机。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>作业后，对确认滚筒、导料槽、缓冲叉、托辊无粘煤，为后续作业做好准备工作。</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 定义后端API的URL，请替换为您的实际接口地址
+    const imageApiUrl = 'http://localhost:8989/jinzhouport/images/getImages?filename=tongcang.png'; // 示例URL
+
+    // 获取页面元素
+    const imgElement = document.getElementById('processImage');
+    const loaderElement = document.getElementById('imageLoader');
+
+    // 使用fetch API请求图片
+    fetch(imageApiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.blob(); // 将响应体转换为Blob对象
+        })
+        .then(blob => {
+            // 创建一个临时的URL对象来引用Blob
+            const imageUrl = URL.createObjectURL(blob);
+
+            // 将临时URL设置为图片的src
+            imgElement.src = imageUrl;
+
+            // 图片加载完成后，隐藏加载提示
+            imgElement.onload = () => {
+                loaderElement.style.display = 'none';
+                // 可选：释放临时URL以避免内存泄漏
+                imgElement.onload = null;
+            };
+        })
+        .catch(error => {
+            console.error('获取工艺流程图失败:', error);
+            loaderElement.textContent = '加载失败: ' + error.message;
+            loaderElement.style.color = 'red';
+            // 可以选择设置一个默认的错误图片
+            // imgElement.src = 'path/to/error-image.png';
+        });
+</script>
+</body>
+</html>

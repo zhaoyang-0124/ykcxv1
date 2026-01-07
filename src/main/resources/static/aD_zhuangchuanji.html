@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装船机工艺流程与作业经验手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px; /* 移动端更小的边距 */
+            /* 防止页面滚动时背景渐变抖动 */
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px; /* 移动端更圆润 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem; /* 使用rem单位自适应 */
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .nav-section {
+            padding: 15px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            text-align: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 12px 20px; /* 移动端按钮更紧凑但易于点击 */
+            border: none;
+            border-radius: 20px; /* 移动端更圆润 */
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+            /* 确保按钮在触摸设备上易于点击 */
+            min-height: 44px; /* iOS推荐的最小触摸目标 */
+            min-width: 44px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            gap: 20px; /* 移动端间距更小 */
+        }
+
+        .section {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 12px; /* 移动端更圆润 */
+            padding: 20px 15px; /* 移动端更紧凑 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-3px); /* 移动端悬停效果减弱 */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px; /* 移动端标题间距更小 */
+            font-size: 1.5rem; /* 移动端标题更小 */
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: initial;
+        }
+
+        .image-container {
+            text-align: center;
+            padding: 15px 10px; /* 移动端更紧凑 */
+        }
+
+        .process-image {
+            max-width: 100%;
+            max-height: 300px; /* 移动端图片高度更小 */
+            height: auto;
+            border-radius: 8px; /* 移动端更圆润 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .manual-content {
+            background: white;
+            padding: 15px; /* 移动端更紧凑 */
+            border-radius: 8px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-height: 400px; /* 移动端内容区域高度更小 */
+            overflow-y: auto; /* 添加滚动条 */
+            line-height: 1.4; /* 移动端行高更紧凑 */
+            font-size: 0.9rem; /* 移动端字体稍小 */
+            color: #333;
+        }
+
+        /* 为手册内容定制的样式 */
+        .manual-content h3 {
+            font-size: 1.2em;
+            margin: 1em 0 0.5em 0;
+            color: #4a5568;
+        }
+
+        .manual-content h4 {
+            font-size: 1.1em;
+            margin: 0.8em 0 0.4em 0;
+            color: #4a5568;
+        }
+
+        .manual-content p {
+            margin: 0.5em 0;
+        }
+
+        .manual-content ol, .manual-content ul {
+            padding-left: 1.2em;
+            margin: 0.5em 0;
+        }
+
+        .manual-content li {
+            margin: 0.3em 0;
+        }
+
+        .no-content {
+            text-align: center;
+            padding: 30px 15px; /* 移动端更紧凑 */
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* 桌面端优化 */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .back-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+                border-radius: 25px;
+            }
+
+            .content-section {
+                padding: 30px;
+                gap: 30px;
+            }
+
+            .section {
+                border-radius: 15px;
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .image-container {
+                padding: 20px;
+            }
+
+            .process-image {
+                max-height: 600px; /* 桌面端图片恢复高度 */
+                border-radius: 10px;
+            }
+
+            .manual-content {
+                padding: 20px;
+                max-height: 600px; /* 桌面端内容区域恢复高度 */
+                line-height: 1.6; /* 桌面端行高更舒适 */
+                font-size: 1rem; /* 桌面端字体恢复 */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🚢 装船机工艺流程与作业经验手册</h1>
+        <p>安全、高效、规范操作指南</p>
+    </div>
+
+    <div class="nav-section">
+        <!-- 请在此处替换为您自己的返回路径 -->
+        <a href="artDrawing.html" class="back-btn">⬅️ 返回上一级</a>
+        <!-- 或者设置一个具体的URL，例如: -->
+        <!-- <a href="/path/to/previous/page" class="back-btn">⬅️ 返回上一级</a> -->
+    </div>
+
+    <div class="content-section">
+        <div class="section">
+            <h2>📊 工艺流程图</h2>
+            <div class="image-container">
+                <!-- 图片将通过JavaScript动态加载 -->
+                <img id="processImage" alt="装船机工艺流程图" class="process-image">
+                <div id="imageLoader" style="display: block;">加载中...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📖 装船机作业经验手册</h2>
+            <div class="manual-content">
+                <h3>装船机作业经验手册</h3>
+
+                <h4>一、装船作业操作经验</h4>
+                <h4>1. 上机前检查经验</h4>
+                <ol>
+                    <li>上机前检查行走轨道是否有杂物或者人员。</li>
+                    <li>检查锚定装置和防风拉锁是否解除，检查确认各夹轮器和电动轮楔是否打开。</li>
+                    <li>送上控制电后查看“及时报警”“历史报警”是否有故障报警。</li>
+                    <li>查看各限位、显示器、指示灯、监控、对讲机是否正常。</li>
+                </ol>
+
+                <h4>2. 作业前 操作经验</h4>
+                <ol start="1">
+                    <li>与中控核对装船机所要作业的泊位准确无误。</li>
+                    <li>联系舱口指挥工，按照指令进行动作。</li>
+                    <li>对好仓位后，大臂上升到停止上限位，抬起安全钩，操作大臂下降到78度出减速限位后，落下安全钩。</li>
+                </ol>
+
+                <h4>3. 作业中 操作经验</h4>
+                <ol start="1">
+                    <li>装舱作业时，装船机溜筒与船舶设施保持1米以上的安全距离再作业。</li>
+                    <li>根据中控要求关注是否有发热煤上船情况。</li>
+                    <li>查看是否有皮带跑偏撒料情况。</li>
+                </ol>
+
+                <h4>4. 作业后 操作经验</h4>
+                <ol start="1">
+                    <li>待料流全部走净后，告知中控，根据指令停止皮带。</li>
+                    <li>将各旋钮开关打到初始位置。</li>
+                    <li>按“控制断”按钮断开控制电源。</li>
+                </ol>
+
+                <h4>5. 移仓经验</h4>
+                <ol start="1">
+                    <li>移舱时需将移舱旋钮打到“请求”位置。</li>
+                    <li>通知中控确认信号，待显示屏显示移仓请求确认后，按下“皮带机停机”按钮。</li>
+                    <li>操作溜筒出舱时，假如船舷太高，需要锁定溜筒出舱的，由专人观察指挥防止溜筒碰撞舱口。</li>
+                    <li>移仓完成后，待“皮带启动”后旋钮打到移仓“完成”位置。</li>
+                </ol>
+
+                <h4>二、特殊工况操作经验</h4>
+                <h4>1. 溜筒无法进仓时经验</h4>
+                <p>对舱时如船舷过高溜筒无法直接进舱需摆动溜筒情况：</p>
+                <ol>
+                    <li>必须俯仰下降到47度以下（溜筒可以锁定角度为47度到15度，锁定范围内溜筒可前摆角度不能超过正10度），操作溜筒锁定。</li>
+                    <li>同时溜筒进行前摆，不超10度后进行俯仰下降，俯仰和溜筒前摆不可同时操作。</li>
+                </ol>
+
+                <h4>2. 溜筒无法出仓时经验</h4>
+                <ol start="1">
+                    <li>出舱时如船舷过高，溜筒无法直接出舱需摆动溜筒时，必须俯仰上升到15度以上（溜筒可以锁定角度为47度到15度，锁定范围内溜筒可前摆角度不能超过正10度），操作溜筒锁定。</li>
+                    <li>同时溜筒进行前摆不超10度后，进行俯仰上升，俯仰和溜筒前摆不可同时操作。</li>
+                </ol>
+
+                <h4>3. 雾天作业经验</h4>
+                <h4>1. 作业前</h4>
+                <p>关注设备状态和视线情况，加强沟通联系。</p>
+                <h4>2. 作业中</h4>
+                <ol>
+                    <li>严格控制流量，防止出现皮带打滑导致的重载停机。</li>
+                    <li>与舱口指挥加强联系，确保大机与船舶保持安全距离。</li>
+                    <li>如舱口指挥无法看清仓内状况，需提前通知中控停止给料。</li>
+                </ol>
+                <h4>3. 作业后</h4>
+                <ol>
+                    <li>联系中控，若长时间不作业，升起大臂。</li>
+                    <li>大机走到锚定位进行防风锚定措施并加强巡视。</li>
+                </ol>
+
+                <h4>4. 湿粘煤作业经验</h4>
+                <h4>1. 作业前</h4>
+                <p>与中控确认所装煤种是否存在湿煤，或者所卸列车路程中是否有下雨等情况。</p>
+                <h4>2. 作业中</h4>
+                <ol>
+                    <li>如有湿煤上船情况，应及时关闭干雾除尘系统。</li>
+                    <li>提示中控严格控制流量，防止出现皮带打滑导致的重载停机。</li>
+                    <li>要时刻关注中心漏斗情况，防止堵料停机。</li>
+                </ol>
+                <h4>3. 作业后</h4>
+                <ol>
+                    <li>对中心漏斗和大铲进行彻底检查，确保无粘煤，为后续装船作业做好准备工作。</li>
+                    <li>如有粘煤撒料情况，及时联系清扫人员进行清扫。</li>
+                    <li>大机走到锚定位进行防风锚定措施并加强巡视。</li>
+                </ol>
+
+                <h4>5. 大风天气作业经验</h4>
+                <h4>1. 作业前</h4>
+                <ol>
+                    <li>查看现场风速情况。</li>
+                    <li>要求舱口巡视佩戴护目镜等劳动防护用品。</li>
+                </ol>
+                <h4>2. 作业中</h4>
+                <ol>
+                    <li>装船机风速仪显示在13.8m/s以内可以作业，超过则停止作业。</li>
+                    <li>与舱口巡视加强沟通联系，防止大机与船体发生刮碰。</li>
+                    <li>及时启动干雾除尘系统，防止煤尘飞扬。</li>
+                </ol>
+                <h4>3. 作业后</h4>
+                <ol>
+                    <li>大机走到锚定位进行防风锚定措施以及加强巡视。</li>
+                    <li>装船机行走轮前或后需放置铁鞋。</li>
+                </ol>
+
+                <h4>三、故障操作经验</h4>
+                <h4>1. 堵煤情况处理经验</h4>
+                <ol>
+                    <li>料斗或溜筒堵煤时，须立即停机并报告中控。</li>
+                    <li>采取安全措施进行排除，严禁重载升臂架、提升溜筒。</li>
+                </ol>
+
+                <h4>2. 走行松缆或紧缆作业经验</h4>
+                <p>走行过程中，“即时报警”栏显示松缆或紧缆故障情况：</p>
+                <ol>
+                    <li>联系装船机巡视到走行电缆卷盘处查看情况。</li>
+                    <li>装船机巡视进行松缆、紧缆操作，待故障复位后再作业。</li>
+                </ol>
+
+                <h4>3. 溜筒角度超过正负5度、行走限位触发极限位置、臂架伸缩触发极限位置等作业经验</h4>
+                <p>作业过程中设备无动作，“即时报警”栏显示超限位报警情况：</p>
+                <ol>
+                    <li>旋转“极限旁路”按钮不松手。</li>
+                    <li>同时按下“复位”按钮，再进行相应动作，恢复正常位置。</li>
+                </ol>
+
+                <h4>4. 悬臂皮带跑偏处理经验</h4>
+                <p>作业过程中，“及时报警”栏显示悬皮跑偏情况：</p>
+                <ol>
+                    <li>当悬皮向东侧跑偏时，将尾车推杆拉回。</li>
+                    <li>当悬皮向西侧跑偏时，将尾车推杆推出。</li>
+                    <li>提示中控控制料流，观察是否有粘煤情况。</li>
+                </ol>
+
+                <h4>5. 悬臂皮带机无法启动作业经验</h4>
+                <ol>
+                    <li>检查控制电源是否送上。</li>
+                    <li>俯仰工作角度为正14度到负12度，俯仰不在工作角度内将无法启动悬臂皮带机。</li>
+                    <li>溜筒角度在正负5度以内。</li>
+                </ol>
+
+                <h4>四、其他经验</h4>
+                <h4>1. 走行操作作业经验</h4>
+                <ol>
+                    <li>走行操作前，确保中控指令到位。</li>
+                    <li>确保地面上的人员明确知道。</li>
+                    <li>大车走行时应逐级提升挡位，大车的减速时间是有延迟的，所以当手柄归零时，还会行走一段距离，务必确定好行走距离约1.5米。</li>
+                </ol>
+
+                <h4>2. “就地”操作作业经验</h4>
+                <p>设备就地操作：装船机各机构也可以使用“就地”操作模式在现场进行操作。</p>
+                <ol>
+                    <li>需要在就地操作箱上操作，将该操作箱上的就地选择开关选为“就地”。</li>
+                    <li>使用就地操作箱上的按钮操作设备（就地操作箱有行走就地操作箱、俯仰就地操作箱、臂架就地操作箱）。</li>
+                </ol>
+
+                <h4>3. 挂安全钩作业经验</h4>
+                <ol>
+                    <li>装船作业结束后，在俯仰上升到78度时进入减速区，抬起安全钩。</li>
+                    <li>直至俯仰到达上限位后（控制屏显示俯仰到达上限位），落下安全钩。</li>
+                    <li>再将俯仰下降，待控制台上的“进钩”指示灯亮起后完成操作。</li>
+                    <li>听舱口指挥工指挥，将大机移到锚定位进行锚定，各旋钮开关需打到初始位置后，按“控制断”按钮断开控制电源。</li>
+                </ol>
+
+                <h4>4. 提升环保作业经验</h4>
+                <ol>
+                    <li>装船作业时控制物料下落高度，调整臂架角度使物料平缓落舱，避免高速下落产生大量扬尘。</li>
+                </ol>
+
+                <h4>5. 节能降耗作业经验</h4>
+                <ol>
+                    <li>作业结束后及时关闭装船机非必要电源、照明等，并有专人进行收尾检查，避免设备长期待机耗电。作业时开启、闲置时关闭，降低照明能耗。</li>
+                    <li>作业时如发现大铲有粘煤情况。</li>
+                    <li>可在仓口指挥下摆动抛料板，借用煤流冲击力清理粘煤，提升作业效率。</li>
+                    <li>装船机司机接到装船指令后再启动设备，皮带采样和移舱等待时，及时停止皮带机运行，减少非必要运转部件，杜绝设备空转浪费。</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 定义后端API的URL，请替换为您的实际接口地址
+    const imageApiUrl = 'http://localhost:8989/jinzhouport/images/getImages?filename=zhuangchuanji.jpg'; // 示例URL
+
+    // 获取页面元素
+    const imgElement = document.getElementById('processImage');
+    const loaderElement = document.getElementById('imageLoader');
+
+    // 使用fetch API请求图片
+    fetch(imageApiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.blob(); // 将响应体转换为Blob对象
+        })
+        .then(blob => {
+            // 创建一个临时的URL对象来引用Blob
+            const imageUrl = URL.createObjectURL(blob);
+
+            // 将临时URL设置为图片的src
+            imgElement.src = imageUrl;
+
+            // 图片加载完成后，隐藏加载提示
+            imgElement.onload = () => {
+                loaderElement.style.display = 'none';
+                // 可选：释放临时URL以避免内存泄漏
+                imgElement.onload = null;
+            };
+        })
+        .catch(error => {
+            console.error('获取工艺流程图失败:', error);
+            loaderElement.textContent = '加载失败: ' + error.message;
+            loaderElement.style.color = 'red';
+            // 可以选择设置一个默认的错误图片
+            // imgElement.src = 'path/to/error-image.png';
+        });
+</script>
+</body>
+</html>

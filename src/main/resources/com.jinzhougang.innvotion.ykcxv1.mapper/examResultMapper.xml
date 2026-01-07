@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.exam.mapper.ExamResultMapper">
+
+    <resultMap id="ExamResultMapper" type="com.jinzhougang.innvotion.ykcxv1.entity.ExamResult">
+        <result property="id" column="id"/>
+        <result property="examNumber" column="examNumber"/>
+        <result property="score" column="score"/>
+    </resultMap>
+    <!-- 1. 检查考号是否存在（用于唯一性校验） -->
+    <select id="countByExamNumber" resultType="int">
+        SELECT COUNT(*)
+        FROM exam_result
+        WHERE examNumber = #{examNumber}
+    </select>
+
+    <!-- 2. 保存考试成绩（自动填充ID） -->
+    <insert id="insertExamResult" parameterType="com.jinzhougang.innvotion.ykcxv1.entity.ExamResult" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO exam_result (examNumber, score)
+        VALUES (#{examNumber}, #{score})
+    </insert>
+
+    <!-- 3. 业务校验：获取考号对应的记录（可选，用于日志追踪） -->
+    <select id="getByExamNumber" resultType="com.jinzhougang.innvotion.ykcxv1.entity.ExamResult">
+        SELECT id, examNumber, score
+        FROM exam_result
+        WHERE examNumber = #{examNumber}
+    </select>
+
+</mapper>

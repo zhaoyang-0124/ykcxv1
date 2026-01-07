@@ -1,0 +1,27 @@
+#spring.application.name=ykcxv1
+server:
+  port: 8989
+  context-path: /jinzhouport
+  jsp-servlet:
+    init-parameters:
+      development: true
+image:
+  base-dir: D:/IdeaProject/ykcxv1/src/main/webapp/imgs
+spring:
+  datasource:
+    type: org.apache.commons.dbcp.BasicDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ems
+    username: root
+    password: root
+  mvc:
+    view:
+      prefix: /jsp/
+      suffix: .jsp
+quiz:
+  word-file-path: C:/Users/Zyang/Desktop/questions2.docx
+mybatis:
+  mapper-locations: classpath:com.jinzhougang.innvotion.ykcxv1.mapper/*Mapper.xml   #mapper声明位置
+  type-aliases-package: com.jinzhougang.innvotion.ykcxv1.entity     #实体类起别名
+
+# 允许跨域

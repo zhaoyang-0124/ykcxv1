@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工艺图导航系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            min-height: 100vh;
+            position: relative;
+            background-color: #2c3e50;
+        }
+
+        /* 桌面端背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('programNo1.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: -2;
+            opacity: 1;
+        }
+
+        /* 移动端背景 */
+        @media (max-width: 768px) {
+            body::before {
+                background: url('progNo1mobile.jpg') no-repeat center center;
+                background-size: cover;
+            }
+        }
+
+        /* 背景遮罩层 */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .process-links {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+        }
+
+        .process-link {
+            position: absolute;
+            display: block;
+            padding: 1.5vh 2.5vh;
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.8vh;
+            font-size: 1.1vh;
+            font-weight: bold;
+            box-shadow: 0 0.4vh 1.5vh rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 0.2vh solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(0.5vh);
+            transform: translate(-50%, -50%);
+            min-width: 12vh;
+            text-align: center;
+        }
+
+        .process-link:hover {
+            background: rgba(41, 128, 185, 0.95);
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 0.6vh 2vh rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .process-link::before {
+            content: '🔗';
+            margin-right: 0.8vh;
+        }
+
+        .controls h2 {
+            color: #2c3e50;
+            margin-bottom: 2vh;
+            text-align: center;
+            font-size: 2.2vh;
+        }
+
+        .control-item label {
+            display: block;
+            margin-bottom: 0.8vh;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.8vh;
+        }
+
+        .control-item input {
+            width: 100%;
+            padding: 0.8vh;
+            border: 0.2vh solid #bdc3c7;
+            border-radius: 0.5vh;
+            font-size: 1.6vh;
+        }
+
+        .control-item input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5vh;
+            font-size: 2vh;
+        }
+
+        .instructions ul {
+            padding-left: 2vh;
+        }
+
+        .instructions li {
+            margin-bottom: 1vh;
+            line-height: 1.6;
+            color: #34495e;
+            font-size: 1.6vh;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .process-link {
+                font-size: 1.3vh;
+                padding: 1.2vh 2vh;
+                min-width: 10vh;
+            }
+
+            .control-item label {
+                font-size: 1.6vh;
+            }
+
+            .control-item input {
+                font-size: 1.4vh;
+            }
+        }
+
+        /* 小屏幕适配 */
+        @media (max-width: 480px) {
+            .header {
+                padding: 2vh 0;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .process-links {
+                height: 50vh;
+                min-height: 300px;
+            }
+
+            .process-link {
+                font-size: 1.1vh;
+                padding: 1vh 1.5vh;
+                min-width: 8vh;
+            }
+
+            .controls h2 {
+                font-size: 1.8vh;
+            }
+        }
+
+        /* 大屏幕适配 */
+        @media (min-width: 1200px) {
+            .process-link {
+                font-size: 1.3vh;
+                padding: 1.8vh 3vh;
+                min-width: 15vh;
+            }
+
+            .controls h2 {
+                font-size: 2.5vh;
+            }
+        }
+
+        /* PC端超链接位置 */
+        #link1-pc { top: 0%; left: 0%; }
+        #link2-pc { top: 40%; left: 30%; }
+        #link3-pc { top: 70%; left: 40%; }
+        #link4-pc { top: 40%; left: 0%; }
+
+        /* 移动端超链接位置 */
+        #link1-mobile { top: 15%; left: 0%; }
+        #link2-mobile { top: 55%; left: 30%; }
+        #link3-mobile { top: 100%; left: 50%; }
+        #link4-mobile { top: 75%; left: 0%; }
+
+        /* 默认显示PC端链接 */
+        .process-link-mobile {
+            display: none;
+        }
+
+        /* 移动端显示移动端链接 */
+        @media (max-width: 768px) {
+            .process-link-pc {
+                display: none;
+            }
+            .process-link-mobile {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>工艺图导航系统</h1>
+        <p>点击下方链接查看各类设备工艺图</p>
+    </div>
+
+    <div class="process-links">
+        <!-- PC端超链接 -->
+        <a href="aD_fancheji.html" class="process-link process-link-pc" id="link1-pc">
+            翻车机
+        </a>
+        <a href="aD_duiqluliao.html" class="process-link process-link-pc" id="link2-pc">
+            堆取料机
+        </a>
+        <a href="aD_zhuangchuanji.html" class="process-link process-link-pc" id="link3-pc">
+            装船机
+        </a>
+        <a href="aD_tongcang.html" class="process-link process-link-pc" id="link4-pc">
+            煤炭筒仓及皮带
+        </a>
+
+        <!-- 移动端超链接 -->
+        <a href="aD_fancheji.html" class="process-link process-link-mobile" id="link1-mobile">
+            翻车机
+        </a>
+        <a href="aD_duiqluliao.html" class="process-link process-link-mobile" id="link2-mobile">
+            堆取料机
+        </a>
+        <a href="aD_zhuangchuanji.html" class="process-link process-link-mobile" id="link3-mobile">
+            装船机
+        </a>
+        <a href="aD_tongcang.html" class="process-link process-link-mobile" id="link4-mobile">
+            煤炭筒仓及皮带
+        </a>
+    </div>
+
+
+</div>
+
+<script>
+    // 更新链接位置的函数（使用百分比）
+    function updatePositions() {
+        // 更新PC端链接位置
+        const pcLinks = ['link1-pc', 'link2-pc', 'link3-pc', 'link4-pc'];
+        pcLinks.forEach(linkId => {
+            const topPercent = document.getElementById(`${linkId}-top`).value;
+            const leftPercent = document.getElementById(`${linkId}-left`).value;
+            const linkElement = document.getElementById(linkId);
+
+            const topValue = Math.max(0, Math.min(100, parseFloat(topPercent)));
+            const leftValue = Math.max(0, Math.min(100, parseFloat(leftPercent)));
+
+            linkElement.style.top = `${topValue}%`;
+            linkElement.style.left = `${leftValue}%`;
+        });
+
+        // 更新移动端链接位置
+        const mobileLinks = ['link1-mobile', 'link2-mobile', 'link3-mobile', 'link4-mobile'];
+        mobileLinks.forEach(linkId => {
+            const topPercent = document.getElementById(`${linkId}-top`).value;
+            const leftPercent = document.getElementById(`${linkId}-left`).value;
+            const linkElement = document.getElementById(linkId);
+
+            const topValue = Math.max(0, Math.min(100, parseFloat(topPercent)));
+            const leftValue = Math.max(0, Math.min(100, parseFloat(leftPercent)));
+
+            linkElement.style.top = `${topValue}%`;
+            linkElement.style.left = `${leftValue}%`;
+        });
+
+        alert('位置已更新！');
+    }
+
+    /*   // 为链接添加点击事件
+       document.addEventListener('DOMContentLoaded', function() {
+           const links = document.querySelectorAll('.process-link');
+
+           links.forEach(function(link) {
+               link.addEventListener('click', function(e) {
+                   e.preventDefault();
+                   const linkText = this.textContent.trim();
+                   alert(`即将打开 ${linkText}，功能开发中...`);
+               });
+           });
+       });*/
+
+    // 添加键盘快捷键支持
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'Enter') {
+            updatePositions();
+        }
+    });
+
+    // 页面加载完成后显示当前位置信息
+    window.addEventListener('load', function() {
+        console.log('工艺图导航系统已加载');
+        if (window.innerWidth <= 768) {
+            console.log('当前使用移动端背景图片和位置设置');
+        } else {
+            console.log('当前使用桌面端背景图片和位置设置');
+        }
+    });
+
+    // 监听窗口大小变化
+    window.addEventListener('resize', function() {
+        console.log('窗口大小已改变，链接尺寸已自动调整');
+    });
+</script>
+</body>
+</html>

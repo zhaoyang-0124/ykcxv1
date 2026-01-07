@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翻车机工艺流程与作业经验手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px; /* 移动端更小的边距 */
+            /* 防止页面滚动时背景渐变抖动 */
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px; /* 移动端更圆润 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem; /* 使用rem单位自适应 */
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .nav-section {
+            padding: 15px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            text-align: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 12px 20px; /* 移动端按钮更紧凑但易于点击 */
+            border: none;
+            border-radius: 20px; /* 移动端更圆润 */
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+            /* 确保按钮在触摸设备上易于点击 */
+            min-height: 44px; /* iOS推荐的最小触摸目标 */
+            min-width: 44px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            gap: 20px; /* 移动端间距更小 */
+        }
+
+        .section {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 12px; /* 移动端更圆润 */
+            padding: 20px 15px; /* 移动端更紧凑 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-3px); /* 移动端悬停效果减弱 */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px; /* 移动端标题间距更小 */
+            font-size: 1.5rem; /* 移动端标题更小 */
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: initial;
+        }
+
+        .image-container {
+            text-align: center;
+            padding: 15px 10px; /* 移动端更紧凑 */
+        }
+
+        .process-image {
+            max-width: 100%;
+            max-height: 300px; /* 移动端图片高度更小 */
+            height: auto;
+            border-radius: 8px; /* 移动端更圆润 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .manual-content {
+            background: white;
+            padding: 15px; /* 移动端更紧凑 */
+            border-radius: 8px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-height: 400px; /* 移动端内容区域高度更小 */
+            overflow-y: auto; /* 添加滚动条 */
+            line-height: 1.4; /* 移动端行高更紧凑 */
+            font-size: 0.9rem; /* 移动端字体稍小 */
+            color: #333;
+        }
+
+        /* 为手册内容定制的样式 */
+        .manual-content h3 {
+            font-size: 1.2em;
+            margin: 1em 0 0.5em 0;
+            color: #4a5568;
+        }
+
+        .manual-content h4 {
+            font-size: 1.1em;
+            margin: 0.8em 0 0.4em 0;
+            color: #4a5568;
+        }
+
+        .manual-content p {
+            margin: 0.5em 0;
+        }
+
+        .manual-content ol, .manual-content ul {
+            padding-left: 1.2em;
+            margin: 0.5em 0;
+        }
+
+        .manual-content li {
+            margin: 0.3em 0;
+        }
+
+        .no-content {
+            text-align: center;
+            padding: 30px 15px; /* 移动端更紧凑 */
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* 桌面端优化 */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .back-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+                border-radius: 25px;
+            }
+
+            .content-section {
+                padding: 30px;
+                gap: 30px;
+            }
+
+            .section {
+                border-radius: 15px;
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .image-container {
+                padding: 20px;
+            }
+
+            .process-image {
+                max-height: 600px; /* 桌面端图片恢复高度 */
+                border-radius: 10px;
+            }
+
+            .manual-content {
+                padding: 20px;
+                max-height: 600px; /* 桌面端内容区域恢复高度 */
+                line-height: 1.6; /* 桌面端行高更舒适 */
+                font-size: 1rem; /* 桌面端字体恢复 */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🚢 翻车机工艺流程与作业经验手册</h1>
+        <p>安全、高效、规范操作指南</p>
+    </div>
+
+    <div class="nav-section">
+        <!-- 请在此处替换为您自己的返回路径 -->
+        <a href="artDrawing.html" class="back-btn">⬅️ 返回上一级</a>
+        <!-- 或者设置一个具体的URL，例如: -->
+        <!-- <a href="/path/to/previous/page" class="back-btn">⬅️ 返回上一级</a> -->
+    </div>
+
+    <div class="content-section">
+        <div class="section">
+            <h2>📊 工艺流程图</h2>
+            <div class="image-container">
+                <!-- 图片将通过JavaScript动态加载 -->
+                <img id="processImage" alt="翻车机工艺流程图" class="process-image">
+                <div id="imageLoader" style="display: block;">加载中...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📖 翻车机作业经验手册</h2>
+            <div class="manual-content">
+                <h3>翻车机作业经验手册</h3>
+
+                <h4>一、翻车机作业操作经验</h4>
+                <h4>1.作业前检查经验</h4>
+                <ol type="e">
+                    <li>作业前检查翻车机区域是否有障碍物和非运行人员。</li>
+                    <li>检查夹轮器是否为打开状态，翻车机、拨车机、定位车是否处于零位。</li>
+                    <li>现场检查是否存在检修作业，影响翻车机作业。</li>
+                    <li>检查信号、指示灯、监控、对讲机是否正常。</li>
+                    <li>核对车次信息、首尾号并记录相关车次信息。</li>
+                </ol>
+
+                <h4>2.作业中操作经验</h4>
+                <ol type="d" start="1">
+                    <li>翻车机区域各岗位人员到位后，启动现场广播三次，提示现场人员作业开始。</li>
+                    <li>启动翻车机自动循环流程。</li>
+                    <li>待皮带机启动并达到满速后，开启活化给料机。</li>
+                    <li>作业过程中，关注料流情况，人员站位情况，设备运行情况，干雾系统运行情况。</li>
+                    <li>关注设备报警情况，杜绝盲目复位继续作业。</li>
+                </ol>
+
+                <h4>3.作业后操作经验</h4>
+                <ol type="a" start="1">
+                    <li>待料流全部走净后，关闭活化给料机，清除作业数据。</li>
+                    <li>将翻车机、拨车机、定位车、夹轮器恢复至初始位置。</li>
+                    <li>将“排空请重”信号给出，并在出口放置铁鞋，防止溜车情况。</li>
+                    <li>铁路通知牵重车后，及时通知翻车机平台人员解除防溜措施，并配合牵车作业。</li>
+                </ol>
+
+                <h4>二、翻车机故障操作经验</h4>
+                <h4>1.定位车辅臂下降不到位作业经验</h4>
+                <ol type="a">
+                    <li>翻车机司机手动将定位车辅臂抬起到位。</li>
+                    <li>检查是否存在报警情况，并通知翻车机平台巡检员检查现场蓄能器处油压是否过高、泵出口压力是否过低、溢流阀电磁阀有无损坏。</li>
+                    <li>如报警里无相关信息或报警信息消除后定位车辅臂仍无法下降到位，翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>2.定位车辅臂抬不起来作业经验</h4>
+                <ol type="a" start="1">
+                    <li>翻车机司机联系平台巡检尝试就地抬起定位车辅臂。</li>
+                    <li>检查是否存在报警情况，并通知翻车机平台巡检员检查现场蓄能器处油压是否过高、泵出口压力是否过低、双向溢流阀溢流、电磁换向阀阀芯是否卡住、电磁换向阀线圈是否损坏、泵无压力输出，联轴节是否损坏。</li>
+                    <li>如报警里无相关信息或报警信息消除后定位车辅臂仍无法抬起到位，翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>3.定位车与重车挂钩失败作业经验</h4>
+                <ol type="a" start="1">
+                    <li>翻车机司机联系入口连接员让其使用现场操作柄尝试再次挂钩。</li>
+                    <li>如操作柄再次挂钩失败，翻车机司机联系入口连接员检查是否为定位车不落销，如定位车不落销则需要入口连接员现场辅助定位车落销并手动合上重车车钩。</li>
+                    <li>如仍挂钩失败翻车机司机将翻车机打到手动模式，手动操作定位车挂钩。</li>
+                    <li>如多次尝试仍定位车无法挂钩成功，翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>4.定位车前行突然停车作业经验</h4>
+                <ol type="a" start="1">
+                    <li>翻车机司机检查翻车机入口光电管是否被挡，如被挡，处理好光电管遮挡问题后定位车便可自行恢复。</li>
+                    <li>如光电管无遮挡，翻车机司机检查是否存在报警情况，并通知翻车机平台巡检员检查现场定位车驱动电机是否出现故障、液压站是否停止工作、制动器是否全部打开。</li>
+                    <li>如报警里无相关信息或报警信息消除后定位车仍无法前行，翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>5.定位车摘钩后不前行作业经验</h4>
+                <ol type="a" start="1">
+                    <li>翻车机司机立即通知平台巡视到位查看情况。</li>
+                    <li>通知平台巡视查看定位车钩头及销子是否打开到位、定位车位置是否偏差较大、钩头接近开关信号是否正常。</li>
+                    <li>如定位车钩头及销子打开不到位，翻车机司机将模式打到手动，与平台巡视配合手动提销摘钩，如定位车位置偏差较大则手动调整位置，如钩头接近开关信号异常司机上报工长，工长联系检修到场处理。</li>
+                </ol>
+
+                <h4>6.定位车前进或后退超程触发作业经验</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，翻车机司机立即停止各设备运行。</li>
+                    <li>翻车机司机检查报警信息，可能出现原因有：前行停车极限位置设置偏大、退停车极限位置设置偏小、定位车编码器故障等。</li>
+                    <li>如报警里无相关信息或报警信息消除后定位车仍无法动作，翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>7.翻车机不翻转作业经验</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，翻车机司机立即停止各设备运行。</li>
+                    <li>翻车机司机检查靠车板是否压力不足、出入口光电管信号是否被遮挡、翻车机电机是否出现驱动故障、液压站是否停机、料斗是否高料位。</li>
+                    <li>处理办法：
+                        <ul>
+                            <li>靠车板压力不足：重新抬起靠车板后再次下压，保证单个靠车板至少有3个油缸压力大于15bar。</li>
+                            <li>出入口光电管信号被遮挡：和平台巡视确认翻车机里的重车位置是否正确、确认重车位置无误打到就地模式，平台巡检就地翻卸翻车机。</li>
+                            <li>翻车机电机驱动故障：查看驱动故障能否复位、无论能否复位都要联系检修人员让其现场确认可否继续作业。</li>
+                            <li>液压站停机：排除液压故障重新启机并联系检修人员让其现场确认可否继续作业。</li>
+                            <li>料斗高料位：和现场确认料斗里煤的位置，如确实高料位停止翻卸等煤放空。如误报高料位，让平台巡视监护翻卸，出现高料位及时告知停止翻卸。</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h4>8.翻车机在翻转时突然停止作业经验</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，翻车机司机立即停止各设备运行。</li>
+                    <li>翻车机司机检查压车梁是否压力不足，下压信号不到位、压车梁或靠车板接近开关损坏或感应铁位置不合适信号丢失、压车梁或靠车板液压系统电磁阀损坏、驱动故障。</li>
+                    <li>处理办法：
+                        <ul>
+                            <li>压车梁压力不足、下压信号不到位：立即联系平台巡检就地返回翻车机，如刚才翻转角度不满足155度需重新抬起下压靠车板压车梁，保证压力到位后重新翻卸。</li>
+                            <li>压车梁或靠车板接近开关损坏或感应铁位置不合适信号丢失：就地返回翻车机后联系检修人员更换新的接近开关或调整感应铁位置。</li>
+                            <li>压车梁或靠车板液压系统电磁阀损坏：就地返回翻车机后联系检修人员更换新的电磁阀。</li>
+                            <li>驱动故障：查看驱动故障能否复位、无论能否复位都要联系检修人员让其现场确认可否继续作业。</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h4>9.翻车机靠车板伸出收不回去作业经验</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，翻车机司机立即停止各设备运行。</li>
+                    <li>翻车机司机尝试手动模式、就地模式收回靠车板。</li>
+                    <li>如仍无法收回，翻车机司机通知平台巡检检查电磁换向阀线圈是否损坏、电磁换向阀阀芯是否卡住、溢流阀是否损坏，是否缺油漏油、液压站是否停止工作。</li>
+                    <li>出现以上故障翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>10.翻车机制动器打不开作业经验</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，翻车机司机立即停止各设备运行。</li>
+                    <li>翻车机司机通知平台巡检员检查电压低、缺相、电磁线圈损坏、弹簧张力大、铰轴卡住、推杆举力不足、叶轮损坏。</li>
+                    <li>出现以上故障翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>11.翻车机压车梁抬不起来作业经验</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，翻车机司机立即停止各设备运行。</li>
+                    <li>翻车机司机尝试手动模式、就地模式抬起压车梁。</li>
+                    <li>如压车梁仍无法抬起，翻车机司机通知平台巡检员检查压车梁电磁换向阀线圈损坏、压车梁电磁换向阀阀芯卡住、溢流阀损坏，油流全部溢流、插装阀关闭不严、液压站停止工作、压车梁抬起电磁换向阀线圈无电源输入。</li>
+                    <li>出现以上故障翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>12.翻车机压车梁收回速度慢作业经验</h4>
+                <ol type="a" start="1">
+                    <li>出现故障后，翻车机司机立即停止各设备运行。</li>
+                    <li>翻车机司机尝试手动模式、就地模式抬起压车梁。</li>
+                    <li>如压车梁速度仍无法恢复，翻车机司机通知平台巡检员检查主进油管路压力低、节流减压阀调整不当、泵电机联轴节损坏、油温低。</li>
+                    <li>出现以上故障翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>13.拨车机与重车挂钩失败作业经验</h4>
+                <ol type="a" start="1">
+                    <li>翻车机司机立即联系平台巡视到现场查看拨车机状态。</li>
+                    <li>翻车机司机与巡视确认是否为钩头不落销，如拨车机不落销则需要平台巡视现场辅助落销。</li>
+                    <li>如仍挂钩失败翻车机司机将翻车机打到手动模式，手动操作拨车机挂钩。</li>
+                    <li>如多次尝试拨车机仍无法挂钩成功，翻车机巡检员通知值班工长，值班工长联系检修人员到场处理。</li>
+                </ol>
+
+                <h4>14.夹轮器夹紧动作慢作业经验</h4>
+                <ol type="a" start="1">
+                    <li>翻车机司机通知平台巡检现场检查有无漏油现象。</li>
+                    <li>如无漏油翻车机巡检通知值班工长，工长联系检修人员现场调节夹轮器压力。</li>
+                </ol>
+
+                <h4>15.活化给料机常见故障作业经验</h4>
+                <h4>(3)活化给料机不工作</h4>
+                <p>故障原因及处理办法：可控硅损坏-更换可控硅，电路板损坏-更换电路板，接地故障跳闸，供电线路故障-处理进线接头，重新合闸。</p>
+                <h4>(4)活化给料机下料慢</h4>
+                <p>故障原因及处理办法：振动器有一台不工作，熔断器熔断-更换熔断器，检查振动器接线端子是否松动，电路板老化-更换电路板，煤湿有粘煤-找检修清理料斗。</p>
+                <h4>(5)活化给料机给料量无法控制</h4>
+                <p>故障原因及处理办法：活化给料机没有压缩空气-检查空压机</p>
+
+                <h4>三、特殊情况下翻车机操作经验</h4>
+                <h4>1.高温煤作业经验</h4>
+                <h4>(4)作业前：</h4>
+                <ol type="c" start="1">
+                    <li>首先，联系中控核对车次信息，并与翻车机平台巡视和翻车机平台巡检员进行信息沟通；</li>
+                    <li>详细询问高温位置、煤种、温度，记录好接卸车型和车厢编号。</li>
+                    <li>联系值班主任对高温煤进行处理，处理后在进行卸车作业。</li>
+                </ol>
+                <h4>(5)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>关注作业中其他车厢情况，比如：作业中出现青烟，出现黄烟，应该停止作业，联系翻车机平台巡视和翻车机平台巡检员，进行进一步确认，以防着火煤进入漏斗。</li>
+                    <li>要时刻与翻车机平台巡视和翻车机平台巡检员保持联系，询问现场有无异味、有无积煤。</li>
+                    <li>特别是在靠近高温煤的车厢，一定要与翻车机平台巡视和翻车机平台巡检员保持联系。</li>
+                </ol>
+                <h4>(6)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>作业后，进行现场检查，必要时及时清理现场积煤。</li>
+                    <li>作业完毕后，要配合巡视人员，对设备进行系统检查，并对易积煤死角进行冲洗，并做好交接班，提醒下班人员加强检查。</li>
+                    <li>做好防溜车措施</li>
+                </ol>
+
+                <h4>2.雨天作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>检查设备是否正常。</li>
+                    <li>检查雨水提升泵、污水提升泵等防汛设备是否正常。</li>
+                    <li>检查防汛物资是否完备。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>一定要严格控制流量，尽量防止出现皮带打滑重载停机。</li>
+                    <li>要时刻关注漏斗变化，及时清理格珊，防止堵料停机。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>在检查设备时要抓紧扶牢，确保人身安全。</li>
+                    <li>检查卸后的车厢是否有积煤。</li>
+                    <li>做好防溜车措施</li>
+                </ol>
+
+                <h4>3.雪天作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>检查设备是否正常。</li>
+                    <li>检查伴热是否投入，液压温度是否正常。</li>
+                    <li>现场作业人员做好防滑。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>一定要严格控制流量，尽量防止出现皮带打滑重载停机。</li>
+                    <li>与翻车机平台巡视和翻车机平台巡检员进行沟通，确认翻卸时车厢有无冻煤情况，如有冻煤情况，将翻转角度改为170°。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>在检查设备时要抓紧扶牢，确保人身安全。</li>
+                    <li>检查车厢有无积煤情况，如有及时联系清扫人员进行清扫。</li>
+                    <li>做好防溜车措施</li>
+                </ol>
+
+                <h4>4.雾天作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>重车对位后提醒排风解管人员注意安全，加强沟通联系。</li>
+                    <li>铁路通知对车后及时放下道杆，进行封闭。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>一定要严格控制流量，尽量防止出现皮带打滑重载停机。</li>
+                    <li>作业过程中与现场加强联系，确保没有无关人员以及障碍物</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>联系铁路，若长时间不取空车安放报警灯以及加强巡视。</li>
+                    <li>做好防溜车措施</li>
+                </ol>
+
+                <h4>5.湿粘煤作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>与翻车机平台巡视和翻车机平台巡检员确认接卸车型和首位编号，确认一下火车路程中是否有下雨等情况。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>一定要严格控制流量，尽量防止出现皮带打滑重载停机。</li>
+                    <li>要时刻关注漏斗变化，及时清理格珊，防止堵料停机。</li>
+                    <li>关注作业中车厢情况，是否有积煤。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <ol type="a" start="1">
+                    <li>作业后，对漏斗进行彻底检查，确保漏斗无积煤，为后续卸车作业做好准备工作。</li>
+                    <li>检查车厢有无积煤情况，如有及时联系清扫人员进行清扫。</li>
+                    <li>做好防溜车措施</li>
+                </ol>
+
+                <h4>6.大风天气作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>与翻车机平台巡视和翻车机平台巡检员进行信息沟通，确认现场风速情况；</li>
+                    <li>要求现场作业人员佩戴护目镜等劳动防护用品。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>作业时，空车推出后观察是否有回溜。如有需暂停作业，采取放铁鞋防溜措施。</li>
+                    <li>作业时与出口连接员加强沟通联系，保证不与火车发生刮碰。</li>
+                    <li>作业时，还需观察重车是否有溜车现象，如有也需在重车前或后放置铁鞋。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <p>做好防溜车措施。</p>
+
+                <h4>7.特殊车厢重车接卸作业经验</h4>
+                <h4>(1)作业前：</h4>
+                <ol type="a" start="1">
+                    <li>首先，联系中控核对车次信息，每节车厢的型号，并与翻车机平台巡视和翻车机平台巡检员进行现场确认。可翻卸车型为：C64T、C70、C70E、C64K、C70EH、C62BK、C70H、C64H、C62AK、C62BT如超出范围内的车型到港，卸车前需对车型参数进行确认，确保符合翻车条件。CD2限界数据车高：3.5米、车宽3.6米，2节车长（含刹车盘）不超过28.3米。</li>
+                    <li>要求特殊车厢的重车对位CD2进行卸车作业。</li>
+                </ol>
+                <h4>(2)作业中：</h4>
+                <ol type="a" start="1">
+                    <li>排风作业时，依次核对车厢是否符合翻车机接卸要求。</li>
+                    <li>作业时与入口连接员加强沟通联系，确保车型为可翻卸车型。</li>
+                    <li>作业时，还需观察重车进入翻车机平台时与压车梁的距离，有剐蹭风险及时暂停作业。</li>
+                </ol>
+                <h4>(3)作业后：</h4>
+                <p>做好防溜车措施。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 定义后端API的URL，请替换为您的实际接口地址
+    const imageApiUrl = 'http://localhost:8989/jinzhouport/images/getImages?filename=fancheji.jpg'; // 示例URL
+
+    // 获取页面元素
+    const imgElement = document.getElementById('processImage');
+    const loaderElement = document.getElementById('imageLoader');
+
+    // 使用fetch API请求图片
+    fetch(imageApiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.blob(); // 将响应体转换为Blob对象
+        })
+        .then(blob => {
+            // 创建一个临时的URL对象来引用Blob
+            const imageUrl = URL.createObjectURL(blob);
+
+            // 将临时URL设置为图片的src
+            imgElement.src = imageUrl;
+
+            // 图片加载完成后，隐藏加载提示
+            imgElement.onload = () => {
+                loaderElement.style.display = 'none';
+                // 可选：释放临时URL以避免内存泄漏
+                imgElement.onload = null;
+            };
+        })
+        .catch(error => {
+            console.error('获取工艺流程图失败:', error);
+            loaderElement.textContent = '加载失败: ' + error.message;
+            loaderElement.style.color = 'red';
+            // 可以选择设置一个默认的错误图片
+            // imgElement.src = 'path/to/error-image.png';
+        });
+</script>
+</body>
+</html>

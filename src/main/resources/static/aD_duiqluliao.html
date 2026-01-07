@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>堆取料机工艺流程与作业经验手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px; /* 移动端更小的边距 */
+            /* 防止页面滚动时背景渐变抖动 */
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px; /* 移动端更圆润 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem; /* 使用rem单位自适应 */
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .nav-section {
+            padding: 15px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            text-align: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 12px 20px; /* 移动端按钮更紧凑但易于点击 */
+            border: none;
+            border-radius: 20px; /* 移动端更圆润 */
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+            /* 确保按钮在触摸设备上易于点击 */
+            min-height: 44px; /* iOS推荐的最小触摸目标 */
+            min-width: 44px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px; /* 移动端更紧凑 */
+            gap: 20px; /* 移动端间距更小 */
+        }
+
+        .section {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 12px; /* 移动端更圆润 */
+            padding: 20px 15px; /* 移动端更紧凑 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-3px); /* 移动端悬停效果减弱 */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px; /* 移动端标题间距更小 */
+            font-size: 1.5rem; /* 移动端标题更小 */
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: initial;
+        }
+
+        .image-container {
+            text-align: center;
+            padding: 15px 10px; /* 移动端更紧凑 */
+        }
+
+        .process-image {
+            max-width: 100%;
+            max-height: 300px; /* 移动端图片高度更小 */
+            height: auto;
+            border-radius: 8px; /* 移动端更圆润 */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .manual-content {
+            background: white;
+            padding: 15px; /* 移动端更紧凑 */
+            border-radius: 8px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-height: 400px; /* 移动端内容区域高度更小 */
+            overflow-y: auto; /* 添加滚动条 */
+            line-height: 1.4; /* 移动端行高更紧凑 */
+            font-size: 0.9rem; /* 移动端字体稍小 */
+            color: #333;
+        }
+
+        /* 为手册内容定制的样式 */
+        .manual-content h3 {
+            font-size: 1.2em;
+            margin: 1em 0 0.5em 0;
+            color: #4a5568;
+        }
+
+        .manual-content h4 {
+            font-size: 1.1em;
+            margin: 0.8em 0 0.4em 0;
+            color: #4a5568;
+        }
+
+        .manual-content p {
+            margin: 0.5em 0;
+        }
+
+        .manual-content ol, .manual-content ul {
+            padding-left: 1.2em;
+            margin: 0.5em 0;
+        }
+
+        .manual-content li {
+            margin: 0.3em 0;
+        }
+
+        .no-content {
+            text-align: center;
+            padding: 30px 15px; /* 移动端更紧凑 */
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* 桌面端优化 */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .back-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+                border-radius: 25px;
+            }
+
+            .content-section {
+                padding: 30px;
+                gap: 30px;
+            }
+
+            .section {
+                border-radius: 15px;
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .image-container {
+                padding: 20px;
+            }
+
+            .process-image {
+                max-height: 600px; /* 桌面端图片恢复高度 */
+                border-radius: 10px;
+            }
+
+            .manual-content {
+                padding: 20px;
+                max-height: 600px; /* 桌面端内容区域恢复高度 */
+                line-height: 1.6; /* 桌面端行高更舒适 */
+                font-size: 1rem; /* 桌面端字体恢复 */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🚢 堆取料机工艺流程与作业经验手册</h1>
+        <p>安全、高效、规范操作指南</p>
+    </div>
+
+    <div class="nav-section">
+        <!-- 请在此处替换为您自己的返回路径 -->
+        <a href="artDrawing.html" class="back-btn">⬅️ 返回上一级</a>
+        <!-- 或者设置一个具体的URL，例如: -->
+        <!-- <a href="/path/to/previous/page" class="back-btn">⬅️ 返回上一级</a> -->
+    </div>
+
+    <div class="content-section">
+        <div class="section">
+            <h2>📊 工艺流程图</h2>
+            <div class="image-container">
+                <!-- 图片将通过JavaScript动态加载 -->
+                <img id="processImage" alt="装船机工艺流程图" class="process-image">
+                <div id="imageLoader" style="display: block;">加载中...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📖 堆取料机作业经验手册</h2>
+            <div class="manual-content">
+                <h3>堆取料机作业经验手册</h3>
+
+                <h4>一、堆料作业经验</h4>
+                <h4>1.堆取料机堆料作业对垛经验</h4>
+                <ol type="a">
+                    <li>堆取料机对垛1场时，回转左转至39°，俯仰至距地面高2米，俯仰角度-9°左右；（作业时堆取料机距料堆高度不大于1.5米，因新起垛位，流量较快，所以距地面高2米开始作业）此角度在煤垛至最高处时，左右两侧安全通道距离相等。</li>
+                    <li>堆取料机对垛2场时，回转右转至37°，俯仰至距地面高2米，俯仰角度-9°左右；（作业时堆取料机距料堆高度不大于1.5米，因新起垛位，流量较快，所以距地面高2米开始作业）此角度在煤垛至最高处时，左右两侧安全通道距离相等。</li>
+                </ol>
+
+                <h4>2.堆取料机回转过地面皮带经验</h4>
+                <p>若堆取料机需要从1场转移到2场作业（或2场转移到1场），堆取料机悬臂俯仰需要抬高至2°才可以正常跨地面皮带回转。若悬臂俯仰至水平0°，无论向左向右至±10°，均无动作，画面显示跨地面皮带红色。</p>
+
+                <h4>(1)作业前</h4>
+                <ol type="a" start="1">
+                    <li>检查操作显示屏是否正常，如有画面异常，立即上报。</li>
+                    <li>接到中控移垛指令后，确认悬臂回转角度为-10—+10度。移垛过程中与巡视保持沟通，异常立即停机。</li>
+                    <li>移垛到位后，报告中控，等待库场员与巡视核垛确认。</li>
+                    <li>回转臂架前，检查俯仰角度是否与煤垛有干涉风险，确认作业位置无误后方可回转。</li>
+                    <li>悬臂回转至作业角度后，通过摄像头与巡视确认悬臂与煤垛顶部距离，调整至合适高度。</li>
+                </ol>
+
+                <h4>(2)作业中</h4>
+                <ol type="a" start="1">
+                    <li>接到中控启流程指令后，依次启动悬臂皮带与尾车皮带，确认运行状态后点击“准备就绪”，并通知中控。</li>
+                    <li>检查干雾抑尘系统是否正常运行，异常则立即通知中控。</li>
+                </ol>
+
+                <h4>(3)作业后</h4>
+                <ol type="a" start="1">
+                    <li>悬臂皮带无煤料后通知中控，按指令顺序停止尾车皮带与悬臂皮带，臂架回零。</li>
+                    <li>确认干雾系统关闭，关闭俯仰液压泵，夹紧夹轮器。</li>
+                </ol>
+
+                <h4>(4)特殊情况</h4>
+                <ol type="a" start="1">
+                    <li>配合清煤或维修时，通过对讲机与现场人员保持联系，设备动作前必须指令复诵。</li>
+                    <li>风速超过13.8米/秒时，立即通知中控。</li>
+                    <li>雨雪天气时，联系翻车机控制流量，防止堵料与皮带跑偏。</li>
+                    <li>出现电缆故障、皮带跑偏、堵料等，立即通知值班工长。</li>
+                </ol>
+
+                <h4>二、取料作业经验</h4>
+                <h4>1.堆取料机取料对垛经验</h4>
+                <ol type="a">
+                    <li>取料作业秉承先取上层再取下层的原则，取料时根据垛堆情况，先确定上层位置，取料高度不高于斗轮机的1/2,因煤垛高度不一，无法给出固定俯仰角度，在堆取料机巡视的指挥下对位即可。</li>
+                </ol>
+
+                <h4>2.取料回转作业经验</h4>
+                <ol type="a" start="1">
+                    <li>取第一层（最上层）时，煤垛因垛尖呈三角形，会多频次回转及走行配合；取第二层（中间层）、第三层（最下层）时，煤垛呈梯形，回转常用低速2档或者1档。</li>
+                    <li>堆取料机对位1场时应先对轨道侧，启动斗轮后用操作回转手柄3档或者4档向左快速转动，待斗轮取上料后，瞬时流量达到3000吨每小时左右，将回转切换至低速2档继续取料，待瞬时流量低于3000吨每小时，将回转切换至高速3档或者4档快速动作至最左边缘后将回转回到0位，同时，向前行走，待取上料后向右重复以上操作，往复操作直至取料结束。</li>
+                    <li>堆取料机对位2场时应先对轨道侧，启动斗轮后用操作回转手柄3档或者4档向右快速转动，待斗轮取上料后，瞬时流量达到3000吨每小时左右，将回转切换至低速2档继续取料，待瞬时流量低于3000吨每小时，将回转切换至高速3档或者4档快速动作至最右边缘后将回转回到0位，同时，向前行走，待取上料后向左重复以上操作，往复操作直至取料结束。</li>
+                </ol>
+
+                <h4>3.斗轮取料作业经验</h4>
+                <ol type="a" start="1">
+                    <li>斗轮机取上煤炭时走行常为1米的距离或者听警报（7-10响）</li>
+                </ol>
+
+                <h4>4.发热煤作业经验</h4>
+                <h4>(1)作业前</h4>
+                <ol type="f" start="1">
+                    <li>联系中控确认，详细了解发热煤的部位信息。</li>
+                </ol>
+                <h4>(2)作业中</h4>
+                <ol type="a" start="1">
+                    <li>全程监护：作业中与巡视密切配合，重点关注烟雾、异味，发现异常立即按“发热煤作业”流程处置。</li>
+                    <li>出现青烟：保持平稳流量，避免大车行进、高速回转等激烈操作。</li>
+                    <li>出现黄烟：立即停止作业，联系巡视与库场管理员确认，防止着火煤上皮带。</li>
+                    <li>靠近高温点：保持与巡视沟通，必要时避让或停止作业，确保设备安全。</li>
+                </ol>
+                <h4>(3)作业后</h4>
+                <ol type="a" start="1">
+                    <li>斗轮退出垛位，进行现场检查。利用移舱间隙联系中控清理托辊及下方积煤。</li>
+                    <li>交接班时，配合巡视检查易积煤死角，并提醒下一班人员加强检查。</li>
+                </ol>
+
+                <h4>5.雨雪天气作业经验</h4>
+                <h4>(1)作业前</h4>
+                <ol type="a" start="1">
+                    <li>确认设备状态正常后方可启动。</li>
+                </ol>
+                <h4>(2)作业中</h4>
+                <ol type="a" start="1">
+                    <li>严格控制流量，注意垛层高度、进车大小、回转速度，防止皮带打滑或重载停机。</li>
+                    <li>若发生重载停机，应抬高臂架，行走前确认地面皮带无积煤。</li>
+                </ol>
+                <h4>(3)作业后</h4>
+                <ol type="a" start="1">
+                    <li>检查设备时注意防滑，抓紧扶牢，确保人身安全。</li>
+                </ol>
+
+                <h4>6.雾天作业经验</h4>
+                <h4>(1)作业前</h4>
+                <ol type="a" start="1">
+                    <li>仔细核对垛位，观察周围环境、垛型及前后间距。</li>
+                </ol>
+                <h4>(2)作业中</h4>
+                <ol type="a" start="1">
+                    <li>依据回转角度与瞬时流量判断进车与转向，避免回转出垛。</li>
+                    <li>记录首次取料行走数据，作为换层参考。换层前必须与巡视沟通，防止碰撞。</li>
+                    <li>垛边尽量留小，避免因视线不清导致臂架触碰限位造成停机。</li>
+                </ol>
+                <h4>(3)作业后</h4>
+                <ol type="a" start="1">
+                    <li>停止作业后联系中控。若长时间停机，设备应回零位，夹紧夹轮器并做好锚定。</li>
+                </ol>
+
+                <h4>7.湿粘煤种作业经验</h4>
+                <ol type="a">
+                    <li>作业中重点关注漏斗积煤情况，利用移舱间隙及时清理。</li>
+                    <li>避免大流量作业，防止漏斗瞬间堵煤。</li>
+                    <li>作业后对漏斗进行彻底检查，确保无积煤，为后续作业做好准备。</li>
+                </ol>
+
+                <h4>8.煤垛坍塌作业经验</h4>
+                <h4>(1)作业前</h4>
+                <ol type="a" start="1">
+                    <li>与库场员仔细核对煤垛信息，特别留意是否存在坡度陡峭等高风险状况。</li>
+                    <li>防坍塌：在陡峭煤垛边缘作业时，斗轮宜放置在垛顶中部位置，避免在垛边长时间停留或深挖。注意观察煤垛有无裂缝、滑移迹象。</li>
+                </ol>
+                <h4>(2)作业中</h4>
+                <ol type="a" start="1">
+                    <li>在取料作业过程中发生煤垛坍塌时，首先应将大机后退直至被埋的斗轮和煤垛分离，再将悬臂俯仰抬起至距煤垛2米高的位置，若取料模式皮带能正常启动，将料排净后继续作业；若皮带无法启动，则将作业模式切换至堆料模式，将皮带上斗轮处压住的煤炭以堆料的模式排出后，再切换至取料模式，继续取料作业。</li>
+                    <li>清垛作业：清垛底时，必须将斗轮放置在安全位置，通知所有人员远离煤垛可能坍塌的范围内，并由专人监护。</li>
+                </ol>
+
+                <h4>三、常见故障与异常情况处理作业经验</h4>
+                <h4>1.重载停机处理经验</h4>
+                <ol type="a">
+                    <li>流量小：确认无故障且现场安全后启动悬臂皮带，放料后检查皮带有无异常。</li>
+                    <li>流量饱负荷：需在机侧抬起臂架至零度以上，在巡视监护下启动，如有异常立即拉停急停。</li>
+                    <li>伴随悬臂皮带打滑：若故障无法复位，应及时联系工长处理，故障排除后再抬臂架启动。</li>
+                    <li>启动后：必须嘱咐巡视密切观察皮带运行情况，出现异常立即停机检查并汇报。</li>
+                </ol>
+
+                <h4>2.无俯仰动作经验</h4>
+                <ol type="a" start="1">
+                    <li>检查有无故障提示，到现场进行检查确认，无问题后点击复位。</li>
+                    <li>若无故障，检查电源、操作方式及其他动作是否正常，并向中控汇报。</li>
+                    <li>检查电气室俯仰空开、热继是否跳闸，俯仰限位是否动作。</li>
+                    <li>检查俯仰液压站是否异常，如低油位、高温或低温保护停机。</li>
+                </ol>
+
+                <h4>3动力电缆或控制电缆异常（过松/过紧/拖缆）</h4>
+                <ol type="a" start="1">
+                    <li>必须现场确认情况后，在专人监护下进行收、放缆操作。</li>
+                    <li>出现拖缆时，首先判断是在收缆还是放缆状态下发生的，再进行相应操作。</li>
+                    <li>操作时务必注意安全，并指定专人执行。</li>
+                    <li>收缆完毕后，进行必要的空载试运行，确认正常后方可继续作业。</li>
+                </ol>
+
+                <h4>4.设备行走/回转无动作</h4>
+                <ol type="a" start="1">
+                    <li>检查有无故障提示，到现场进行检查确认，无问题后点击复位。</li>
+                    <li>无故障时，检查电源、操作模式及其他动作是否正常，并向值班主任汇报。</li>
+                    <li>检查电气室相应空开、热继是否跳闸，行走/回转限位是否动作。</li>
+                    <li>检查驱动机构有无异常，如低油位、高温或低温保护停机。</li>
+                    <li>确认夹轨器、锚定装置已完全解除。</li>
+                </ol>
+
+                <h4>5.悬臂皮带启动而斗轮未能启动</h4>
+                <ol type="a" start="1">
+                    <li>就地检查斗轮调速旋钮是否处于正常位置。</li>
+                    <li>检查斗轮液压站工作是否正常，斗轮驱动电机及联轴节运转是否正常。</li>
+                </ol>
+
+                <h4>6.斗轮被异物卡住或取到杂物</h4>
+                <ol type="a" start="1">
+                    <li>立即动作：立即停止斗轮和悬臂皮带，并报告中控。</li>
+                    <li>禁止操作：严禁通过反复启停、强行正转或晃动臂架等危险方式处理。</li>
+                    <li>汇报与处理：若现场无法处理，立即汇报值班工长，等待维修人员到现场处理。若取到大型杂物（如钢筋、木料），需停机并协助清理。</li>
+                </ol>
+
+                <h4>7.突发断电或设备失控应急处置</h4>
+                <ol type="a" start="1">
+                    <li>紧急制动：利用设备惯性或后备电源，立即操作所有可用制动装置（夹轮器、回转制动等）。</li>
+                    <li>报告与检查：立即向值班工长和中控汇报，检查设备最终状态，评估对周边设备或人员的安全影响。</li>
+                    <li>执行防风预案：若遇大风天气，断电后视情况执行紧急防风措施，如立即投入所有夹轮器，并通知人员放置铁鞋。</li>
+                    <li>恢复供电后：必须全面检查设备，特别是电气系统和制动机构，确认正常后方可送电。</li>
+                </ol>
+
+                <h4>8回转机构异常（异响、抖动、滑移）</h4>
+                <ol type="a" start="1">
+                    <li>听到异响或感觉异常抖动时，立即停止回转动作。</li>
+                    <li>尝试微小角度反向回转，观察现象是否消失或变化。</li>
+                    <li>检查回转齿圈、减速箱有无可见异常。无论现象是否消失，均需记录并汇报值班工长，由维修人员确认正常后方可继续作业。</li>
+                </ol>
+
+                <h4>9.与堆场机械（如装载机）配合作业经验</h4>
+                <ol type="a" start="1">
+                    <li>划定区域：与对方司机明确各自作业区域，保持安全距离，严禁交叉作业。</li>
+                    <li>视线盲区：在移动大机或回转臂架前，必须确认装载机等移动机械不在作业范围内。</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 定义后端API的URL，请替换为您的实际接口地址
+    const imageApiUrl = 'http://localhost:8989/jinzhouport/images/getImages?filename=duiquliao.jpg'; // 示例URL
+
+    // 获取页面元素
+    const imgElement = document.getElementById('processImage');
+    const loaderElement = document.getElementById('imageLoader');
+
+    // 使用fetch API请求图片
+    fetch(imageApiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.blob(); // 将响应体转换为Blob对象
+        })
+        .then(blob => {
+            // 创建一个临时的URL对象来引用Blob
+            const imageUrl = URL.createObjectURL(blob);
+
+            // 将临时URL设置为图片的src
+            imgElement.src = imageUrl;
+
+            // 图片加载完成后，隐藏加载提示
+            imgElement.onload = () => {
+                loaderElement.style.display = 'none';
+                // 可选：释放临时URL以避免内存泄漏
+                imgElement.onload = null;
+            };
+        })
+        .catch(error => {
+            console.error('获取工艺流程图失败:', error);
+            loaderElement.textContent = '加载失败: ' + error.message;
+            loaderElement.style.color = 'red';
+            // 可以选择设置一个默认的错误图片
+            // imgElement.src = 'path/to/error-image.png';
+        });
+</script>
+</body>
+</html>

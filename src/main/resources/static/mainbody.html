@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPIC 锦州港口公司培训一体化平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-top: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            background: white;
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .module-card h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .module-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .module-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .module-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .spic-image {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .spic-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 5px solid white;
+        }
+
+        .spic-image h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            padding: 30px 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+        }
+
+        /* 为不同模块设置不同颜色主题 */
+        .module-card:nth-child(1) .module-link { background: linear-gradient(45deg, #ff6b6b, #ee5a24); }
+        .module-card:nth-child(2) .module-link { background: linear-gradient(45deg, #4834d4, #686de0); }
+        .module-card:nth-child(3) .module-link { background: linear-gradient(45deg, #00d2d3, #54a0ff); }
+        .module-card:nth-child(4) .module-link { background: linear-gradient(45deg, #ff9ff3, #f368e0); }
+        .module-card:nth-child(5) .module-link { background: linear-gradient(45deg, #feca57, #ff9ff3); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>SPIC 锦州港口公司培训一体化平台</h1>
+        <p>一站式解决方案，提升工作效率</p>
+    </div>
+
+    <div class="modules-grid">
+        <div class="module-card">
+            <div class="module-icon">📝</div>
+            <h3>严考促学练习模块</h3>
+            <p>在线答题系统，支持多种题型，自动评分，学习效果跟踪</p>
+            <a href="ykcx.html" class="module-link">进入答题系统</a>
+        </div>
+
+        <div class="module-card">
+            <div class="module-icon">📋</div>
+            <h3>严考促学考试模块</h3>
+            <p>模拟严考促学正式考试环境，记录考试成绩，预测分数</p>
+            <a href="ykcx_exam.html" class="module-link">进入考试系统</a>
+        </div>
+
+        <div class="module-card">
+            <div class="module-icon">⚙️</div>
+            <h3>设备工艺图及尽管总结</h3>
+            <p>设备工艺流程图查看与管理，各设备经验手册线上管理</p>
+            <a href="artDrawing.html" class="module-link">查看厂区图</a>
+        </div>
+
+        <div class="module-card">
+            <div class="module-icon">⚠️</div>
+            <h3>操作规程及经验总结</h3>
+            <p>厂区设备操作指南及经验总结，确保作业安全规范</p>
+            <a href="employeeSphere.html" class="module-link">学习事故案例</a>
+        </div>
+
+        <div class="module-card">
+            <div class="module-icon">🏗️</div>
+            <h3>待开发模块</h3>
+            <p>新功能正在开发中，敬请期待更多实用工具</p>
+            <a href="#" class="module-link">敬请期待</a>
+        </div>
+    </div>
+
+    <div class="spic-image">
+        <h2>SPIC 系统概览</h2>
+        <img src="https://placehold.co/800x400/4a90e2/ffffff?text=SPIC+System+Overview" alt="SPIC系统图片">
+    </div>
+
+    <div class="footer">
+        <p>© 2025 SPIC 综合管理平台. 保留所有权利.</p>
+    </div>
+</div>
+
+<!--<script>
+    // 为模块链接添加点击事件
+    document.addEventListener('DOMContentLoaded', function() {
+        const moduleLinks = document.querySelectorAll('.module-link');
+
+        moduleLinks.forEach(function(link, index) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const moduleName = ['答题模块', '工作票模块', '设备工艺图', '典型事故模块', '待开发模块'][index];
+                alert(`即将跳转到 ${moduleName}，功能开发中...`);
+            });
+        });
+    });
+</script>-->
+</body>
+</html>

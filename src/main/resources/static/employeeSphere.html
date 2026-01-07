@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时光圈 - 朋友圈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#8b5cf6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .moment-card { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .moment-card:hover { transform: translateY(-2px); transition: transform 0.2s; }
+        .comment-input { border-top: 1px solid #333; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+<div class="max-w-3xl mx-auto px-4 py-8">
+    <!-- 顶部导航 -->
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            <i class="fas fa-heart mr-2"></i>时光圈
+        </h1>
+        <button id="logoutBtn" class="text-gray-400 hover:text-white">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+
+    <!-- 当前用户显示区域（安全获取！） -->
+    <div id="userGreeting" class="text-xl font-bold text-primary mb-6">
+        <i class="fas fa-user-circle mr-2 text-2xl"></i>
+        <span id="usernameDisplay">加载中...</span>
+    </div>
+
+    <!-- 朋友圈列表 -->
+    <div id="momentsContainer"></div>
+</div>
+
+<script>
+    // ✅ 安全获取当前用户（从后端API，不是localStorage！）
+    async function getCurrentUser() {
+        try {
+            const response = await fetch('http://localhost:8989/api/user/me', {
+                credentials: 'include' // 关键：自动携带Cookie
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error('用户信息获取失败');
+            }
+        } catch (error) {
+            console.error('获取用户失败:', error);
+            // 无认证时跳转登录
+            window.location.href = 'login.html';
+        }
+    }
+
+    // ✅ 渲染朋友圈（安全方式）
+    async function renderMoments() {
+        try {
+            const currentUser = await getCurrentUser();
+
+            // 更新欢迎语（安全获取！）
+            document.getElementById('usernameDisplay').textContent =
+                `欢迎回来，${currentUser.username}！`;
+
+            const response = await fetch('http://localhost:3001/api/moments', {
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                const moments = await response.json();
+
+                if (moments.length === 0) {
+                    document.getElementById('momentsContainer').innerHTML =
+                        '<div class="text-center py-12 text-gray-500">' +
+                        '  <i class="fas fa-compass text-4xl mb-4"></i>' +
+                        '  <p>这里还没有动态哦~</p>' +
+                        '</div>';
+                    return;
+                }
+
+                let html = '';
+                moments.forEach(moment => {
+                    html += `
+                            <div class="bg-gray-800 rounded-xl p-6 mb-6 border border-gray-700 moment-card">
+                                <div class="flex items-center mb-4">
+                                    <img src="${moment.user.avatar}" class="w-10 h-10 rounded-full object-cover border-2 border-primary">
+                                    <div class="ml-3">
+                                        <div class="font-bold text-lg">${moment.user.username}</div>
+                                        <div class="text-gray-400 text-sm">${formatTime(moment.createdAt)}</div>
+                                    </div>
+                                </div>
+                                <div class="mb-4 text-lg">${moment.content}</div>
+                                ${moment.imageUrls ? `
+                                    <div class="grid grid-cols-2 gap-3 mb-4">
+                                        ${moment.imageUrls.split(',').map(img =>
+                        `<img src="${img}" class="rounded-lg w-full h-40 object-cover">`
+                    ).join('')}
+                                    </div>
+                                ` : ''}
+                                <div class="mt-4">
+                                    <div class="flex items-center space-x-3 border-t border-gray-700 pt-4">
+                                        <img src="${currentUser.avatar}" class="w-8 h-8 rounded-full object-cover">
+                                        <input type="text" class="flex-1 bg-gray-700 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                               placeholder="说点什么..."
+                                               onkeypress="handleCommentSubmit(event, ${moment.id})">
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                });
+
+                document.getElementById('momentsContainer').innerHTML = html;
+            }
+        } catch (error) {
+            console.error('渲染朋友圈失败:', error);
+            alert('加载朋友圈失败，请重试');
+        }
+    }
+
+    // 处理评论提交
+    async function handleCommentSubmit(event, momentId) {
+        if (event.key === 'Enter') {
+            const input = event.target;
+            const content = input.value.trim();
+            if (content) {
+                try {
+                    await fetch(`http://localhost:3001/api/moments/${momentId}/comments`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ content }),
+                        credentials: 'include'
+                    });
+
+                    input.value = '';
+                    // 重新加载朋友圈（实际项目可用局部更新）
+                    renderMoments();
+                } catch (error) {
+                    console.error('评论失败:', error);
+                    alert('评论失败，请重试');
+                }
+            }
+        }
+    }
+
+    // 格式化时间
+    function formatTime(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diff = now - date;
+
+        const seconds = Math.floor(diff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) return `${days}天前`;
+        if (hours > 0) return `${hours}小时前`;
+        if (minutes > 0) return `${minutes}分钟前`;
+        return '刚刚';
+    }
+
+    // 退出登录
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+        try {
+            // 实际项目中应调用后端退出接口
+            // 但这里我们简单清除Cookie（实际需要后端支持）
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.href = 'login.html';
+        } catch (error) {
+            console.error('退出失败:', error);
+            alert('退出失败');
+        }
+    });
+
+    // 页面加载时自动获取用户信息
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            await renderMoments();
+        } catch (error) {
+            console.error('初始化失败:', error);
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线答题系统</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .question { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .options { margin: 10px 0; }
+        .option { margin: 5px 0; }
+        .btn { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; border: none; }
+        .btn-success { background: #28a745; color: white; border: none; }
+        .btn-info { background: #17a2b8; color: white; border: none; }
+        .btn-warning { background: #ffc107; color: white; border: none; }
+        .btn-return {background: #28a745; color: white; border: none}
+        .result { text-align: center; font-size: 24px; margin: 20px 0; }
+        .hidden { display: none; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+        /* 答题卡样式 */
+        .card-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        /* 错题样式 */
+        .wrong-answer { color: #dc3545; }
+        .correct-answer { color: #28a745; }
+        .answer-comparison { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+
+        /* 计时器样式 */
+        .timer-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1001;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .timer-warning {
+            background: #ffc107 !important;
+            color: #000 !important;
+        }
+
+        .card-item {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .card-item:not(.answered) { background: #f8f9fa; }
+        .card-item.answered { background: #28a745; color: white; }
+        .card-item.current { background: #007bff; color: white; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!--返回mainbody.html-->
+    <div id="returnSection">
+        <a href="mainbody.html" class="btn btn-success">返回上一级</a>
+    </div>
+
+    <h1>在线答题系统</h1>
+
+    <!-- 计时器 -->
+    <div id="timerContainer" class="timer-container hidden">
+        <span>剩余时间: </span>
+        <span id="timerDisplay">30:00</span>
+    </div>
+
+    <!-- 系统状态 -->
+    <div id="statusSection">
+        <h2>系统状态</h2>
+        <div id="statusInfo" class="status">正在检查系统状态...</div>
+        <div id="questionStats" class="status info hidden"></div>
+    </div>
+
+    <!-- 开始答题 -->
+    <div id="startSection" class="hidden">
+        <h2>准备答题</h2>
+        <p>点击开始答题，系统将从题库中随机抽取85道题目（45道单选，20道多选，20道判断）</p>
+        <p>答题时间：<strong>30分钟</strong></p>
+        <button class="btn btn-success" onclick="startQuiz()">开始答题</button>
+    </div>
+
+    <!-- 答题区域 -->
+    <div id="quizSection" class="hidden">
+        <h2>答题中</h2>
+        <div id="progressInfo"></div>
+        <button class="btn btn-info" onclick="showCard()">答题卡</button>
+        <div id="questionContainer"></div>
+        <button class="btn btn-primary" onclick="prevQuestion()" id="prevBtn">上一题</button>
+        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">下一题</button>
+        <button class="btn btn-success" onclick="submitQuiz()">提交答案</button>
+    </div>
+
+    <!-- 答题卡弹窗 -->
+    <div id="cardOverlay" class="overlay hidden" onclick="closeCard()"></div>
+    <div id="cardPanel" class="card-panel hidden">
+        <h3>答题卡</h3>
+        <div id="cardGrid" class="card-grid"></div>
+        <div style="margin-top: 20px; text-align: center;">
+            <button class="btn btn-primary" onclick="closeCard()">关闭</button>
+        </div>
+    </div>
+
+    <!-- 结果区域 -->
+    <div id="resultSection" class="hidden">
+        <div class="result">
+            <h2>答题完成！</h2>
+            <p>您的得分：<span id="totalScore"></span> 分</p>
+            <button class="btn btn-success" onclick="location.reload()">重新开始</button>
+            <button class="btn btn-warning" onclick="reviewWrongAnswers()">查看错题</button>
+        </div>
+    </div>
+
+    <!-- 错题查看区域 -->
+    <div id="wrongAnswersSection" class="hidden">
+        <h2>错题回顾</h2>
+        <div id="wrongAnswersContainer"></div>
+        <button class="btn btn-primary" onclick="backToResult()">返回结果</button>
+    </div>
+</div>
+
+<script>
+    let currentSession = null;
+    let currentQuestionIndex = 0;
+    let timerInterval = null;
+    let remainingTime = 30 * 60; // 30分钟，以秒为单位
+
+    // 记录答案与锁定状态
+    const answersByQid = new Map();     // questionId -> string[]
+    // 移除了 lockedByQid 集合，不再锁定题目
+    let questions = [];                 // 题目数组缓存
+    let questionResults = [];           // 答题结果缓存
+
+    window.onload = function() {
+        checkSystemStatus();
+    };
+
+    async function checkSystemStatus() {
+        try {
+            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/status');
+            if (response.ok) {
+                const status = await response.json();
+                const statusDiv = document.getElementById('statusInfo');
+                const statsDiv = document.getElementById('questionStats');
+
+                if (status.fileStatus.fileExists) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '题库文件加载成功';
+
+                    if (status.questionStats.total) {
+                        statsDiv.className = 'status info';
+                        statsDiv.innerHTML = `
+                            题库统计：共 ${status.questionStats.total} 道题目<br>
+                            单选题：${status.questionStats.singleChoice} 道<br>
+                            多选题：${status.questionStats.multipleChoice} 道<br>
+                            判断题：${status.questionStats.trueFalse} 道
+                        `;
+                        statsDiv.classList.remove('hidden');
+                    }
+
+                    document.getElementById('startSection').classList.remove('hidden');
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = '题库文件不存在，请检查文件路径配置';
+                }
+            } else {
+                document.getElementById('statusInfo').className = 'status error';
+                document.getElementById('statusInfo').textContent = '系统连接失败';
+            }
+        } catch (error) {
+            document.getElementById('statusInfo').className = 'status error';
+            document.getElementById('statusInfo').textContent = '系统连接失败: ' + error.message;
+        }
+    }
+
+    async function startQuiz() {
+        try {
+            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/start', { method: 'POST' });
+            const result = await response.json();
+
+            if (result.success) {
+                currentSession = { sessionId: result.sessionId };
+                document.getElementById('startSection').classList.add('hidden');
+                document.getElementById('quizSection').classList.remove('hidden');
+                document.getElementById('timerContainer').classList.remove('hidden');
+
+                await loadQuestions();
+
+                // 开始计时
+                startTimer();
+            } else {
+                alert('开始答题失败: ' + (result.error || '未知错误'));
+            }
+        } catch (error) {
+            alert('开始答题失败: ' + error.message);
+        }
+    }
+
+    async function loadQuestions() {
+        try {
+            const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/session/${currentSession.sessionId}/questions`);
+            if (response.ok) {
+                const sess = await response.json();
+                currentSession = sess;
+                questions = sess.questions || [];
+                currentQuestionIndex = 0;
+                showQuestion();
+                updateCard(); // 初始化答题卡
+            } else {
+                alert('加载题目失败');
+            }
+        } catch (error) {
+            alert('加载题目失败: ' + error.message);
+        }
+    }
+
+    function showQuestion() {
+        if (!questions || questions.length === 0) return;
+        if (currentQuestionIndex < 0) currentQuestionIndex = 0;
+        if (currentQuestionIndex >= questions.length) { submitQuiz(); return; }
+
+        const q = questions[currentQuestionIndex];
+        const container = document.getElementById('questionContainer');
+        const progressDiv = document.getElementById('progressInfo');
+
+        progressDiv.innerHTML = `第 ${currentQuestionIndex + 1} 题 / 共 ${questions.length} 题`;
+
+        // 本题是否已保存答案（回显）
+        const saved = answersByQid.get(q.id) || [];
+
+        container.innerHTML = `
+            <div class="question">
+                <h3>第${currentQuestionIndex + 1}题 (${getTypeName(q.type)})</h3>
+                <p>${q.content}</p>
+                <div class="options">
+                    ${(q.options || []).map(opt => `
+                        <div class="option">
+                            <label>
+                                <input
+                                    type="${q.type === 2 ? 'checkbox' : 'radio'}"
+                                    name="q${q.id}"
+                                    value="${opt.key}"
+                                    ${saved.includes(opt.key) ? 'checked' : ''}>
+                                ${opt.key}. ${opt.text}
+                            </label>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        // 更新按钮状态
+        document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+        document.getElementById('nextBtn').textContent =
+            currentQuestionIndex === questions.length - 1 ? '提交' : '下一题';
+
+        updateCard(); // 更新答题卡
+    }
+
+    function getTypeName(type) {
+        switch(type) {
+            case 1: return '单选题';
+            case 2: return '多选题';
+            case 3: return '判断题';
+            default: return '未知';
+        }
+    }
+
+    async function nextQuestion() {
+        const q = questions[currentQuestionIndex];
+        if (!q) return;
+
+        // 采集当前答案并提交到后端
+        const inputs = document.querySelectorAll(`input[name="q${q.id}"]`);
+        const chosen = [];
+        inputs.forEach(i => { if (i.checked) chosen.push(i.value); });
+
+        // 保存到本地映射
+        answersByQid.set(q.id, chosen);
+
+        // 提交到后端
+        try {
+            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/answer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sessionId: currentSession.sessionId,
+                    questionId: q.id,
+                    answers: chosen
+                })
+            });
+        } catch (err) {
+            console.error('提交答案失败:', err);
+        }
+
+        // 下一题
+        if (currentQuestionIndex >= questions.length - 1) {
+            submitQuiz();
+        } else {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+    }
+
+    function prevQuestion() {
+        // 回到上一题，可以修改答案
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion();
+        }
+    }
+
+    async function submitQuiz() {
+        // 清除计时器
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        // 提交当前页面未保存的答案
+        const currentQ = questions[currentQuestionIndex];
+        if (currentQ) {
+            const inputs = document.querySelectorAll(`input[name="q${currentQ.id}"]`);
+            const chosen = [];
+            inputs.forEach(i => { if (i.checked) chosen.push(i.value); });
+            answersByQid.set(currentQ.id, chosen);
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/finish?sessionId=${currentSession.sessionId}`, {
+                method: 'POST'
+            });
+            if (response.ok) {
+                const result = await response.json();
+                questionResults = result.questionResults || [];
+                document.getElementById('quizSection').classList.add('hidden');
+                document.getElementById('resultSection').classList.remove('hidden');
+                document.getElementById('totalScore').textContent = result.totalScore;
+            }
+        } catch (error) {
+            alert('提交失败: ' + error.message);
+        }
+    }
+
+    // 计时器功能
+    function startTimer() {
+        // 重置剩余时间
+        remainingTime = 30 * 60; // 30分钟
+
+        // 更新显示
+        updateTimerDisplay();
+
+        // 清除可能存在的旧计时器
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+
+        // 开始计时
+        timerInterval = setInterval(() => {
+            remainingTime--;
+
+            if (remainingTime <= 0) {
+                // 时间到，自动提交
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                // 显示提示
+                alert('答题时间已到，系统将自动提交答案！');
+
+                // 自动提交
+                submitQuiz();
+            } else {
+                updateTimerDisplay();
+            }
+        }, 1000); // 每秒更新一次
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+
+        const display = document.getElementById('timerDisplay');
+        display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        // 当时间少于5分钟时，改变颜色提醒用户
+        const timerContainer = document.getElementById('timerContainer');
+        if (remainingTime <= 5 * 60) { // 5分钟
+            timerContainer.classList.add('timer-warning');
+        } else {
+            timerContainer.classList.remove('timer-warning');
+        }
+    }
+
+    // 答题卡功能
+    function showCard() {
+        const cardGrid = document.getElementById('cardGrid');
+        cardGrid.innerHTML = '';
+
+        questions.forEach((q, index) => {
+            const cardItem = document.createElement('div');
+            cardItem.className = 'card-item';
+            cardItem.textContent = index + 1;
+
+            // 标记已答题的题目
+            if (answersByQid.has(q.id) && answersByQid.get(q.id).length > 0) {
+                cardItem.classList.add('answered');
+            }
+
+            // 标记当前题
+            if (index === currentQuestionIndex) {
+                cardItem.classList.add('current');
+            }
+
+            cardItem.onclick = () => {
+                jumpToQuestion(index);
+            };
+
+            cardGrid.appendChild(cardItem);
+        });
+
+        document.getElementById('cardOverlay').classList.remove('hidden');
+        document.getElementById('cardPanel').classList.remove('hidden');
+    }
+
+    function closeCard() {
+        document.getElementById('cardOverlay').classList.add('hidden');
+        document.getElementById('cardPanel').classList.add('hidden');
+    }
+
+    function jumpToQuestion(index) {
+        // 保存当前题的答案
+        const currentQ = questions[currentQuestionIndex];
+        if (currentQ) {
+            const inputs = document.querySelectorAll(`input[name="q${currentQ.id}"]`);
+            const chosen = [];
+            inputs.forEach(i => { if (i.checked) chosen.push(i.value); });
+            answersByQid.set(currentQ.id, chosen);
+        }
+
+        currentQuestionIndex = index;
+        showQuestion();
+        closeCard();
+    }
+
+    function updateCard() {
+        // 这个函数可以在需要时更新答题卡状态
+        // 由于答题卡是弹窗形式，这里可以留空或添加需要的逻辑
+    }
+
+    // 错题查看功能
+    async function reviewWrongAnswers() {
+        try {
+            // 如果还没有获取过错题数据，则重新获取
+            if (!questionResults || questionResults.length === 0) {
+                const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/results?sessionId=${currentSession.sessionId}`);
+                if (response.ok) {
+                    const result = await response.json();
+                    questionResults = result.questionResults || [];
+                }
+            }
+
+            const wrongAnswers = questionResults.filter(q => !q.isCorrect);
+
+            if (wrongAnswers.length === 0) {
+                alert('恭喜您，没有错题！');
+                return;
+            }
+
+            const container = document.getElementById('wrongAnswersContainer');
+            container.innerHTML = '';
+
+            wrongAnswers.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+
+                // 找到原始题目信息
+                const originalQuestion = questions.find(qs => qs.id === q.questionId);
+
+                questionDiv.innerHTML = `
+                    <h3>第${index + 1}题 (${getTypeName(originalQuestion ? originalQuestion.type : q.questionType)})</h3>
+                    <p>${q.questionContent}</p>
+                    <div class="answer-comparison">
+                        <p class="wrong-answer">您的答案：${formatAnswer(q.userAnswers, originalQuestion)}</p>
+                        <p class="correct-answer">正确答案：${formatAnswer(q.correctAnswers, originalQuestion)}</p>
+                    </div>
+                `;
+
+                container.appendChild(questionDiv);
+            });
+
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('wrongAnswersSection').classList.remove('hidden');
+        } catch (error) {
+            alert('获取错题失败: ' + error.message);
+        }
+    }
+
+    function formatAnswer(answers, question) {
+        if (!answers || answers.length === 0) return '未作答';
+
+        // 如果有选项文本，显示选项文本
+        if (question && question.options) {
+            return answers.map(answer => {
+                const option = question.options.find(opt => opt.key === answer);
+                return option ? `${answer}. ${option.text}` : answer;
+            }).join(', ');
+        }
+
+        // 否则直接显示答案
+        return answers.join(', ');
+    }
+
+    function backToResult() {
+        document.getElementById('wrongAnswersSection').classList.add('hidden');
+        document.getElementById('resultSection').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>
