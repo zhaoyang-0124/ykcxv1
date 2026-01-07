@@ -4,7 +4,6 @@ import com.jinzhougang.innvotion.ykcxv1.mapper.UserMapper;
 import com.jinzhougang.innvotion.ykcxv1.entity.LoginResponse;
 import com.jinzhougang.innvotion.ykcxv1.entity.User;
 import com.jinzhougang.innvotion.ykcxv1.entity.UserInfo;
-import com.sun.jmx.snmp.Timestamp;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
