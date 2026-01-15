@@ -199,7 +199,7 @@
 
     async function checkSystemStatus() {
         try {
-            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/status');
+            const response = await fetch('http://127.0.0.1:8989/jinzhouport/api/quiz/status');
             if (response.ok) {
                 const status = await response.json();
                 const statusDiv = document.getElementById('statusInfo');
@@ -247,7 +247,7 @@
         }
 
         try {
-            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/start', {
+            const response = await fetch('http://127.0.0.1:8989/jinzhouport/api/quiz/start', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ examNumber: currentExamNumber })
@@ -274,7 +274,7 @@
 
     async function loadQuestions() {
         try {
-            const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/session/${currentSession.sessionId}/questions`);
+            const response = await fetch(`http://127.0.0.1:8989/jinzhouport/api/quiz/session/${currentSession.sessionId}/questions`);
             if (response.ok) {
                 const sess = await response.json();
                 currentSession = sess;
@@ -356,7 +356,7 @@
 
         // 提交到后端
         try {
-            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/answer', {
+            const response = await fetch('http://127.0.0.1:8989/jinzhouport/api/quiz/answer', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -403,7 +403,7 @@
         }
 
         try {
-            const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/finish?sessionId=${currentSession.sessionId}`, {
+            const response = await fetch(`http://127.0.0.1:8989/jinzhouport/api/quiz/finish?sessionId=${currentSession.sessionId}`, {
                 method: 'POST'
             });
             if (response.ok) {
@@ -479,7 +479,7 @@
     async function submitFinalScore(score) {
         alert(score);
         try {
-            const response = await fetch('http://localhost:8989/jinzhouport/api/exam/results', {
+            const response = await fetch('http://127.0.0.1:8989/jinzhouport/api/exam/results', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
