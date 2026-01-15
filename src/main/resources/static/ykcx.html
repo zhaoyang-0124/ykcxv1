@@ -184,7 +184,7 @@
 
     async function checkSystemStatus() {
         try {
-            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/status');
+            const response = await fetch('http://127.0.0.1:8989/jinzhouport/api/quiz/status');
             if (response.ok) {
                 const status = await response.json();
                 const statusDiv = document.getElementById('statusInfo');
@@ -222,7 +222,7 @@
 
     async function startQuiz() {
         try {
-            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/start', { method: 'POST' });
+            const response = await fetch('http://127.0.0.1:8989/jinzhouport/api/quiz/start', { method: 'POST' });
             const result = await response.json();
 
             if (result.success) {
@@ -245,7 +245,7 @@
 
     async function loadQuestions() {
         try {
-            const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/session/${currentSession.sessionId}/questions`);
+            const response = await fetch(`http://127.0.0.1:8989/jinzhouport/api/quiz/session/${currentSession.sessionId}/questions`);
             if (response.ok) {
                 const sess = await response.json();
                 currentSession = sess;
@@ -327,7 +327,7 @@
 
         // 提交到后端
         try {
-            const response = await fetch('http://localhost:8989/jinzhouport/api/quiz/answer', {
+            const response = await fetch('http://127.0.0.1:8989/jinzhouport/api/quiz/answer', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -374,7 +374,7 @@
         }
 
         try {
-            const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/finish?sessionId=${currentSession.sessionId}`, {
+            const response = await fetch(`http://127.0.0.1:8989/jinzhouport/api/quiz/finish?sessionId=${currentSession.sessionId}`, {
                 method: 'POST'
             });
             if (response.ok) {
@@ -499,7 +499,7 @@
         try {
             // 如果还没有获取过错题数据，则重新获取
             if (!questionResults || questionResults.length === 0) {
-                const response = await fetch(`http://localhost:8989/jinzhouport/api/quiz/results?sessionId=${currentSession.sessionId}`);
+                const response = await fetch(`http://127.0.0.1:8989/jinzhouport/api/quiz/results?sessionId=${currentSession.sessionId}`);
                 if (response.ok) {
                     const result = await response.json();
                     questionResults = result.questionResults || [];
