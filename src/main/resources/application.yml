@@ -11,7 +11,7 @@ spring:
   datasource:
     type: org.apache.commons.dbcp.BasicDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ems
+    url: jdbc:mysql://114.116.207.144:3306/ems
     username: root
     password: root
   mvc:
